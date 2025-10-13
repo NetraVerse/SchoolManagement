@@ -1,6 +1,8 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import Sidebar from "@/components/Sidebar";
+import Sidebar from "@/components/Sidebar/Sidebar";
+import ReactQueryProvider from "@/context/Providers/ReactQueryProvider";
+import { PermissionProvider } from "@/context/auth/PermissionContext";
 
 export const metadata: Metadata = {
   title: "Next.js Sidebar Example",
@@ -14,9 +16,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="flex">
-        <Sidebar />
-        <main className="flex-1">{children}</main>
+      <body>
+        <ReactQueryProvider>
+          <PermissionProvider>
+            <main>{children}</main>
+          </PermissionProvider>
+        </ReactQueryProvider>
       </body>
     </html>
   );
