@@ -97,7 +97,7 @@ const Dashboard: React.FC = () => {
     toggleTranslation();
   };
   return (
-    <div className="flex flex-col bg-[#FBFBFB] min-h-full ">
+    <div className="flex flex-col bg-[#FBFBFB] min-h-screen ">
       {/* <header className="relative flex flex-col sm:flex-row sm:justify-between sm:items-center bg-white p-3 rounded-md shadow gap-3">
         <h1 className="text-xl text-black font-bold ml-5 mb-2">
           {"Dashboard"}
