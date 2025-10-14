@@ -1,7 +1,7 @@
 "use client";
 
 import { ButtonElement } from "@/components/Buttons/ButtonElement";
-import { InputElement } from "@/components/InputElement";
+import { InputElement } from "@/components/Input/InputElement";
 import { NormalizeStringCase } from "@/components/helpers/normalizeStringCase";
 import {
   ILoginType,
