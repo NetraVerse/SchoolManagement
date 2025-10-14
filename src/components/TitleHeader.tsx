@@ -14,7 +14,7 @@ const TitleHeader = ({ title, button, importButton, exportElement }: Props) => {
 
   return (
     <>
-      <header className="mb-4 py-6 px-6 font-bold dark:bg-[#202024] dark:text-white bg-white text-lg flex justify-between border-b border-l border-r border-[#ECECEC]">
+      <header className="mb-4 py-4 px-6 font-bold dark:bg-[#202024] dark:text-white bg-white text-lg flex justify-between border-b border-l border-r border-[#ECECEC]">
         <h1 className="">
           {`${title}`}
           <div className="text-xs font-bold text-teal-500">

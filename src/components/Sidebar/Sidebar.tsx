@@ -2,19 +2,21 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { NavLink } from "react-router-dom";
+import adi from "@/assets/adi.jpg";
 import { ChevronDown, ChevronRight, LogOut, LucideProps } from "lucide-react";
 import { ISidebar } from "@/types/ISidebar";
 import { usePermissions } from "@/context/auth/PermissionContext";
 import {
-  Accessibility,
   Home,
   Navigation,
   School,
+  LockKeyholeOpen,
   Settings,
 } from "lucide-react";
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
+import DeleteButton from "../Buttons/DeleteButton";
+import DialogButton from "../Buttons/DialogButton";
 
 type Props = {
   sideBarItems: ISidebar;
@@ -25,8 +27,8 @@ const Sidebar: React.FC<Props> = ({ isOpen, sideBarItems }: Props) => {
   const { setMenuStatus } = usePermissions();
   const [activeSection, setActiveSection] = useState<string | null>(null);
   const [activeSubModule, setActiveSubModule] = useState<string | null>(null);
-  const router = useRouter();
   const pathname = usePathname();
+  const navigate = useRouter();
   const storedUser = localStorage.getItem("userDetails");
   let role = "";
   if (storedUser) {
@@ -88,12 +90,14 @@ const Sidebar: React.FC<Props> = ({ isOpen, sideBarItems }: Props) => {
     Dashboard: Home,
     Setup: Settings,
     Navigation: Navigation,
-    "Access Control": Accessibility,
-    "Institution Setup": School,
+    "Access Control": LockKeyholeOpen,
+    "Institution SetUp": School,
   };
 
   const sortByRank = (a: any, b: any) => (a.rank ?? 999) - (b.rank ?? 999);
-
+  const handleLogout = () => {
+    navigate.push("/");
+  };
   const sortedModules = [...sideBarItems.module]
     .sort(sortByRank)
     .map((item) => ({
@@ -130,40 +134,35 @@ const Sidebar: React.FC<Props> = ({ isOpen, sideBarItems }: Props) => {
       }`}
     >
       {/* Logo */}
-      <div className="p-4 flex justify-center md:justify-start border-b border-gray-200">
+      <div className="p-4  py-6 flex justify-center md:justify-start border-b border-gray-200">
         <Link
           href="/Admin/dashboard"
           className="flex items-center cursor-pointer"
         >
-          {/* <img
-            src="/logo.svg"
-            alt="logo"
-            className="h-10 w-10 md:h-12 md:w-12 rounded-full shadow-sm"
-          /> */}
           <span className="ml-3 text-lg font-semibold hidden md:inline">
             MyApp
           </span>
         </Link>
       </div>
-      <div className="p-4 flex justify-center md:justify-start border-b border-gray-200">
-        <Link
-          href="/Admin/dashboard"
-          className="flex justify-between cursor-pointer"
+      <div className="flex items-center justify-between px-4 py-2 bg-white shadow-sm  ">
+        <div className="relative w-9 h-9">
+          <img
+            src={adi.src}
+            alt="User"
+            className="w-8 h-9 rounded-full object-cover cursor-pointer ml-auto"
+          />
+        </div>
+        <span className="text-md font-semibold text-gray-800 group-hover:text-blue-600 transition-colors hidden md:inline">
+          Super Admin
+        </span>
+        <button
+          onClick={handleLogout}
+          className="p-2 rounded-full hover:bg-gray-100 transition-colors cursor-pointer"
+          aria-label="Logout"
         >
-          {/* <img
-            src="/logo.svg"
-            alt="logo"
-            className="h-10 w-10 md:h-12 md:w-12 rounded-full shadow-sm"
-          /> */}
-          <span className="ml-3 text-lg font-semibold hidden md:inline">
-            My profile
-          </span>
-          <div className="ml-25">
-            <LogOut />
-          </div>
-        </Link>
+          <LogOut className="text-gray-600 hover:text-red-500 transition-colors" />
+        </button>
       </div>
-
       {/* Navigation */}
       <div className="flex-1 mt-4 px-2 overflow-y-auto space-y-1">
         {navLinks
@@ -232,7 +231,7 @@ const Sidebar: React.FC<Props> = ({ isOpen, sideBarItems }: Props) => {
                     const activeSub = pathname === subItem.targetUrl;
                     return (
                       <Link
-                        key={subItem.subModulesId}
+                        key={subItem.targetUrl}
                         href={subItem.targetUrl}
                         onClick={() =>
                           handleSelectSubModule(subItem.subModulesId!)

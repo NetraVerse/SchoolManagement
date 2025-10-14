@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { JSX } from "react";
 import {
   AlertDialog,
   AlertDialogTrigger,
@@ -15,7 +15,7 @@ import {
 
 import { Button } from "@/components/ui/button";
 type Props = {
-  headerText: string;
+  headerText: JSX.Element;
   content: string;
   onConfirm: () => void;
 };
