@@ -16,7 +16,16 @@ const AssignRoleForAddUser = ({
   setSelectedRole,
   setRoleName,
 }: Props) => {
-  const role = localStorage.getItem("role");
+  const storedUser = localStorage.getItem("userDetails");
+  let role = "";
+  if (storedUser) {
+    try {
+      const parsedUser = JSON.parse(storedUser);
+      role = parsedUser.role;
+    } catch (error) {
+      console.error("Failed to parse user details:", error);
+    }
+  }
   const { data: otherRoles, refetch } = useGetRolesForOtherRole();
   const { data: superAdminRoles, isLoading } = useGetAllRoles();
 
@@ -35,7 +44,7 @@ const AssignRoleForAddUser = ({
     refetch();
   }, [refetch]);
   return (
-    <div className="bg-white p-4 rounded-lg h-[15rem]">
+    <div className="bg-white dark:bg-[#353535] p-4 rounded-lg h-[15rem]">
       <h1 className="text-xl font-semibold mb-2">Assign Roles</h1>
       <div>
         {role === "superadmin"

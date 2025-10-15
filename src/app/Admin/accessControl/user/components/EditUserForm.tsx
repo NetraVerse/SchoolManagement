@@ -23,6 +23,7 @@ const EditUserForm = ({ form, userId, onClose, currentPageIndex }: Props) => {
   const { refetch } = useGetAllUsers(query);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [profileImage, setProfileImage] = useState("");
+
   const onSubmit: SubmitHandler<IUserResponse> = async (form) => {
     try {
       await updateUser.mutateAsync(form);
@@ -33,98 +34,97 @@ const EditUserForm = ({ form, userId, onClose, currentPageIndex }: Props) => {
       if (error instanceof AxiosError) {
         Toast.error(error.response?.data);
       } else {
-        Toast.error("Failed to add module" + error);
+        Toast.error("Failed to update user: " + error);
       }
-    } finally {
-      onClose();
     }
   };
 
-  const handleImageClick = () => {
-    fileInputRef.current?.click();
-  };
-
+  const handleImageClick = () => fileInputRef.current?.click();
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
       const reader = new FileReader();
-      reader.onloadend = () => {
-        setProfileImage(reader.result as string);
-      };
+      reader.onloadend = () => setProfileImage(reader.result as string);
       reader.readAsDataURL(file);
     }
   };
-  return (
-    <div
-      id="container"
-      className=" fixed  inset-0 flex justify-center items-center border-rounded-lg bg-opacity-30 backdrop-blur-sm"
-    >
-      <div className="max-h-screen w-[30rem]">
-        <div className=" rounded-lg ">
-          <form onSubmit={form.handleSubmit(onSubmit)}>
-            <fieldset className="bg-white p-6  drop-shadow-md ">
-              <div className="flex justify-between items-center mb-4">
-                <h1 className="text-lg  font-semibold">Edit User</h1>
-                <button
-                  type="button"
-                  onClick={onClose}
-                  className="text-red-400 text-2xl hover:text-red-500 "
-                >
-                  <X strokeWidth={3} />
-                </button>
-              </div>
-              <div className="flex items-center gap-4 mb-6">
-                <div className="grid grid-rows-2 gap-4 flex-1">
-                  <InputElement
-                    label="User Name"
-                    form={form}
-                    layout="row"
-                    name="UserName"
-                    placeholder="Enter your name here"
-                  />
-                  <InputElement
-                    label="Email"
-                    form={form}
-                    layout="row"
-                    name="Email"
-                    placeholder="Enter your email here"
-                  />
-                  <InputElement
-                    label="Password"
-                    form={form}
-                    layout="row"
-                    name="Password"
-                    placeholder="Enter your Password"
-                  />
-                </div>
 
-                <div className="bg-white rounded-lg overflow-hidden flex items-center justify-center">
+  return (
+    <div className="fixed inset-0 flex justify-center items-center bg-black/30 backdrop-blur-sm z-50 p-4">
+      <div className="w-full max-w-md h-auto">
+        <fieldset className="bg-white dark:bg-[#353535] rounded-xl shadow-xl border border-gray-200 p-6">
+          {/* Header */}
+          <div className="flex justify-between items-center mb-6">
+            <h1 className="text-xl font-semibold text-gray-800 dark:text-gray-50">
+              Edit User
+            </h1>
+            <button
+              type="button"
+              onClick={onClose}
+              className="text-gray-400 hover:text-red-500 transition-colors"
+            >
+              <X size={28} strokeWidth={3} color="red" />
+            </button>
+          </div>
+          <div className="flex flex-col md:flex-row gap-6 mb-6">
+            <div className="flex-1 grid gap-4">
+              <InputElement
+                label="User Name"
+                form={form}
+                layout="row"
+                name="UserName"
+                placeholder="Enter your name here"
+              />
+              <InputElement
+                label="Email"
+                form={form}
+                layout="row"
+                name="Email"
+                placeholder="Enter your email here"
+              />
+              <InputElement
+                label="Password"
+                form={form}
+                layout="row"
+                name="Password"
+                placeholder="Enter your password"
+              />
+            </div>
+
+            <div className="flex-shrink-0 flex flex-col items-center justify-center">
+              <div
+                onClick={handleImageClick}
+                className="w-24 h-24 bg-gray-100 rounded-full overflow-hidden flex items-center justify-center cursor-pointer hover:ring-2 hover:ring-teal-500 transition"
+              >
+                {profileImage ? (
                   <img
                     src={profileImage}
-                    alt="add profile"
-                    className="object-cover w-18 h-14  cursor-pointer pr-6"
-                    onClick={handleImageClick}
+                    alt="Profile"
+                    className="object-cover w-full h-full"
                   />
-                  <input
-                    type="file"
-                    accept="image/*"
-                    ref={fileInputRef}
-                    className="hidden"
-                    onChange={handleFileChange}
-                  />
-                </div>
+                ) : (
+                  <span className="text-gray-400 text-sm">Click to add</span>
+                )}
               </div>
+              <input
+                type="file"
+                accept="image/*"
+                ref={fileInputRef}
+                className="hidden"
+                onChange={handleFileChange}
+              />
+            </div>
+          </div>
 
-              <div className="flex mt-4 justify-center">
-                <ButtonElement
-                  type="submit"
-                  className="hover:bg-teal-700 transition-all !text-xm font-bold !bg-teal-500"
-                  text={"Submit"}
-                />
-              </div>
-            </fieldset>
-          </form>
-        </div>
+          {/* Submit */}
+          <div className="flex justify-center mt-4">
+            <ButtonElement
+              type="submit"
+              text="Submit"
+              className="bg-teal-500 hover:bg-teal-600 text-white font-semibold px-6 py-2 rounded-lg transition"
+            />
+          </div>
+        </fieldset>
       </div>
     </div>
   );

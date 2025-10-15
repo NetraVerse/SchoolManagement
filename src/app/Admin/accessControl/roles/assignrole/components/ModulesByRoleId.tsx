@@ -89,11 +89,9 @@ const ModuleByRoleId = ({ roleId, visible, onClose }: Props) => {
                       onChange={() => handleToggle(mod.Id)}
                     />
                     <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-blue-400 rounded-full peer peer-checked:bg-blue-500 transition-all"></div>
-                    <div className="absolute left-1 top-1 w-4 h-4 bg-white rounded-full shadow transform transition-all peer-checked:translate-x-5"></div>
+                    <div className="absolute left-1 w-4 h-4 bg-white rounded-full shadow transform transition-all peer-checked:translate-x-5"></div>
                   </label>
                 </div>
-
-                {/* Submodules row */}
                 {moduleStatuses[mod.Id] && (
                   <div className="flex flex-wrap gap-3">
                     <SubModulesByRoleId

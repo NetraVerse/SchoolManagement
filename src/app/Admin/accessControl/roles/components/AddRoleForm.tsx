@@ -31,10 +31,12 @@ const AddRoleForm = ({ form, onClose }: Props) => {
       id="container"
       className="fixed inset-0 flex justify-center items-center border-rounded-lg bg-opacity-30 backdrop-blur-sm"
     >
-      <div className="w-[16rem] flex justify-center bg-white py-4 rounded-lg drop-shadow-lg">
+      <div className="w-[16rem] flex justify-center dark:bg-[#353535] bg-white py-4 rounded-lg drop-shadow-lg">
         <div>
           <div className="flex justify-between items-center mb-4">
-            <h1 className="text-lg  font-semibold">Add Role</h1>
+            <h1 className="text-xl font-semibold text-gray-800 dark:text-gray-50">
+              Add Role
+            </h1>
             <button
               type="button"
               onClick={onClose}

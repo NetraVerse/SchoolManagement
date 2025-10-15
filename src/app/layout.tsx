@@ -1,8 +1,8 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import Sidebar from "@/components/Sidebar/Sidebar";
 import ReactQueryProvider from "@/context/Providers/ReactQueryProvider";
 import { PermissionProvider } from "@/context/auth/PermissionContext";
+import { ThemeProvider } from "@/context/Theme/ThemeContext";
 
 export const metadata: Metadata = {
   title: "Next.js Sidebar Example",
@@ -19,7 +19,9 @@ export default function RootLayout({
       <body>
         <ReactQueryProvider>
           <PermissionProvider>
-            <main>{children}</main>
+            <ThemeProvider>
+              <main>{children}</main>
+            </ThemeProvider>
           </PermissionProvider>
         </ReactQueryProvider>
       </body>

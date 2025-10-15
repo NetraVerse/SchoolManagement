@@ -8,13 +8,14 @@ import DeleteButton from "@/components/Buttons/DeleteButton";
 import { EditButton } from "@/components/Buttons/EditButton";
 import { ButtonElement } from "@/components/Buttons/ButtonElement";
 import { useRemoveRolePermission } from "../hooks";
-import { Edit, FileLock, Trash, X } from "lucide-react";
+import { Edit, FileLock, Plus, Trash, X } from "lucide-react";
 import EditRolePermission from "../Pages/Edit";
 import AddPermissionToRole from "./AddPermissionToRoleForm";
 import AssignedRole from "./AssignedRole";
 import { usePermissions } from "@/context/auth/PermissionContext";
 import useMenuPermissionData from "@/app/Admin/navigation/hooks/useMenuPermissionData";
 import { useRouter } from "next/navigation";
+import Add from "../Pages/Add";
 
 const AllRolePermissionForm = () => {
   const [state, setState] = useState({
@@ -94,7 +95,7 @@ const AllRolePermissionForm = () => {
           setSelectedIdEdit(id);
           setModalEdit(true);
         }}
-        customStyle="!text-xs font-bold !bg-teal-500"
+        className="!text-xs font-semibold !bg-blue-500 hover:!bg-blue-600"
       />
     );
   };
@@ -113,116 +114,118 @@ const AllRolePermissionForm = () => {
     setSelectedIdForRole(selectedIdForRole === roleId ? "" : roleId);
     setModalForRole(selectedIdForRole !== roleId);
   };
-
+  const [addModal, setAddModal] = useState(false);
   return (
-    <div style={{ margin: "15px", overflowX: "auto" }}>
-      {error && <p style={{ color: "red" }}>{error.message}</p>}
-      {isLoading && <p>Loading users...</p>}
-      <table
-        className="w-full border-collapse mb-4"
-        style={{
-          minWidth: "600px",
-          tableLayout: "fixed",
-        }}
-      >
-        <thead>
-          <tr style={{ backgroundColor: "#f2f2f2", textAlign: "left" }}>
-            <th style={{ padding: "12px", borderBottom: "2px solid #ddd" }}>
-              SN
-            </th>
-            <th style={{ padding: "12px", borderBottom: "2px solid #ddd" }}>
-              PERMISSION NAME
-            </th>
-            <th style={{ padding: "12px", borderBottom: "2px solid #ddd" }}>
-              ROLE NAME
-            </th>
-            <th style={{ padding: "12px", borderBottom: "2px solid #ddd" }}>
-              ACTION
-            </th>
-            <th style={{ padding: "12px", borderBottom: "2px solid #ddd" }}>
-              ASSIGN ROLE TO USER
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {data && data?.Items?.length > 0 ? (
-            state?.roles?.map((permission: IRolePermission, index: number) => (
-              <tr
-                key={index}
-                className={`cursor-pointer ${
-                  index % 2 === 0 ? "bg-gray-100" : "bg-white"
-                } `}
-              >
-                <td className="p-3 border-b">{index + 1}</td>
-                <td className="p-3 border-b">{permission.name}</td>
-                <td className="p-3 border-b">
-                  <AssignedRole permissionId={permission.id} />
-                </td>
-                <td className="p-3 border-b">
-                  <div className="flex space-x-2">
-                    <div className="tooltip">
-                      {/* <span className="tooltiptext">Delete Role</span> */}
-                      <DeleteButton
-                        onConfirm={() => handleDelete(permission.id)}
-                        headerText={<Trash strokeWidth={3} />}
-                        content="Are you sure you want to delete it? You cannot undo it."
-                      />
-                    </div>
-                    <div className="tooltip">
-                      {/* <span className="tooltiptext">Edit Role</span> */}
-                      <EditButton button={buttonElement(permission.id ?? "")} />
-                      {selectedIdEdit && selectedIdEdit.trim() !== "" ? (
-                        <EditRolePermission
-                          permissionId={selectedIdEdit}
-                          visible={modalEdit}
-                          onClose={() => setModalEdit(false)}
-                          Id={selectedIdEdit}
-                        />
-                      ) : (
-                        ""
-                      )}
-                    </div>
-                  </div>
-                </td>
-                <td className="p-3 border-b">
-                  <div className="tooltip">
-                    <ButtonElement
-                      icon={<FileLock size={14} />}
-                      type="button"
-                      text=""
-                      handleClick={() => {
-                        handleGrantPermission(permission.id);
-                      }}
-                      customStyle="!text-xs font-bold !bg-teal-500"
-                    />
-                  </div>
-
-                  {selectedIdForRole === permission.id && modalForRole && (
-                    <div className="">
-                      <AddPermissionToRole
-                        permissionId={permission.id}
-                        key={selectedIdForRole}
-                        onClose={() => {
-                          setModalForRole(false);
-                          setSelectedIdForRole("");
-                        }}
-                        visible={modalForRole}
-                      />
-                    </div>
-                  )}
-                </td>
+    <div className="md:px-4  px-4 ">
+      <div className="overflow-x-auto bg-white dark:bg-[#353535] border border-gray-200 rounded-xl">
+        <div className="flex w-full justify-between p-3 px-4 pt-4 items-center ">
+          <h1 className=" text-xl font-semibold ">All Permission</h1>
+          <ButtonElement
+            icon={<Plus size={24} />}
+            type="button"
+            text="Add New Permission"
+            onClick={() => setAddModal(true)}
+            className="!text-md !font-bold"
+          />
+        </div>
+        <div className="overflow-x-auto">
+          <table className="min-w-full table-auto text-left border border-gray-200 rounded-lg">
+            <thead>
+              <tr className="bg-gray-50 dark:text-white text-gray-700 dark:bg-[#80878c] uppercase text-sm font-semibold border-b border-gray-200">
+                <th className="py-3 px-4">SN</th>
+                <th className="py-3 px-4">PERMISSION NAME</th>
+                <th className="py-3 px-4">ROLE NAME</th>
+                <th className="py-3 px-4">ACTION</th>
+                <th className="py-3 px-4">ASSIGN ROLE TO USER</th>
               </tr>
-            ))
-          ) : (
-            <tr>
-              <td colSpan={3} style={{ padding: "12px", textAlign: "center" }}>
-                No roles found.
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </table>
+            </thead>
+            <tbody>
+              {data && data?.Items?.length > 0 ? (
+                state?.roles?.map(
+                  (permission: IRolePermission, index: number) => (
+                    <tr
+                      key={index}
+                      className="hover:bg-gray-50 dark:hover:bg-gray-600  transition-colors border-b border-gray-100 dark:text-gray-100 text-gray-700"
+                    >
+                      <td className="py-3 px-4">{index + 1}</td>
+                      <td className="py-3 px-4">{permission.name}</td>
+                      <td className="py-3 px-4">
+                        <AssignedRole permissionId={permission.id} />
+                      </td>
+                      <td className="py-3 px-4">
+                        <div className="flex space-x-2">
+                          <div className="tooltip">
+                            {/* <span className="tooltiptext">Delete Role</span> */}
+                            <DeleteButton
+                              onConfirm={() => handleDelete(permission.id)}
+                              headerText={<Trash strokeWidth={3} />}
+                              content="Are you sure you want to delete it? You cannot undo it."
+                            />
+                          </div>
+                          <div className="tooltip">
+                            {/* <span className="tooltiptext">Edit Role</span> */}
+                            <EditButton
+                              button={buttonElement(permission.id ?? "")}
+                            />
+                            {selectedIdEdit && selectedIdEdit.trim() !== "" ? (
+                              <EditRolePermission
+                                permissionId={selectedIdEdit}
+                                visible={modalEdit}
+                                onClose={() => setModalEdit(false)}
+                                Id={selectedIdEdit}
+                              />
+                            ) : (
+                              ""
+                            )}
+                          </div>
+                        </div>
+                      </td>
+                      <td className="py-3 px-4 text-gray-700">
+                        <div className="tooltip">
+                          <ButtonElement
+                            icon={<FileLock size={14} />}
+                            type="button"
+                            text=""
+                            handleClick={() => {
+                              handleGrantPermission(permission.id);
+                            }}
+                            customStyle="!text-xs font-bold !bg-teal-500"
+                          />
+                        </div>
 
+                        {selectedIdForRole === permission.id &&
+                          modalForRole && (
+                            <div className="">
+                              <AddPermissionToRole
+                                permissionId={permission.id}
+                                key={selectedIdForRole}
+                                onClose={() => {
+                                  setModalForRole(false);
+                                  setSelectedIdForRole("");
+                                }}
+                                visible={modalForRole}
+                              />
+                            </div>
+                          )}
+                      </td>
+                    </tr>
+                  )
+                )
+              ) : (
+                <tr>
+                  <td
+                    colSpan={3}
+                    style={{ padding: "12px", textAlign: "center" }}
+                  >
+                    No roles found.
+                  </td>
+                </tr>
+              )}
+              <Add visible={addModal} onClose={() => setAddModal(false)} />
+            </tbody>
+          </table>
+        </div>
+      </div>
       {data && data?.Items?.length > 0 && (
         <Pagination
           form={handleSubmit}

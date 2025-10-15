@@ -7,8 +7,9 @@ import { useRemoveSubModule } from "../hooks";
 import Pagination from "@/components/Pagination";
 import { ButtonElement } from "@/components/Buttons/ButtonElement";
 import DeleteButton from "@/components/Buttons/DeleteButton";
-import { Edit, Trash } from "lucide-react";
+import { Edit, Plus, Trash } from "lucide-react";
 import EditSubModule from "../pages/Edit";
+import AddSubModule from "../pages/Add";
 import { EditButton } from "@/components/Buttons/EditButton";
 import { useRouter } from "next/navigation";
 const AllSubModuleForm = () => {
@@ -25,7 +26,7 @@ const AllSubModuleForm = () => {
           setShowModal(true);
           setSelectedId(id);
         }}
-        className="!text-xs font-bold !bg-teal-500"
+        className="!text-xs font-semibold !bg-blue-500 hover:!bg-blue-600"
       />
     );
   };
@@ -50,7 +51,7 @@ const AllSubModuleForm = () => {
     setState((prev) => ({ ...prev, ...updates }));
   };
   const query = `?pagesize=${paginationParams.pageSize}&pageIndex=${paginationParams.pageIndex}&IsPagination=${paginationParams.isPagination}`;
-  const { data: allSubModules, error, refetch } = useGetAllSubModules(query);
+  const { data: allSubModules, refetch } = useGetAllSubModules(query);
   type SearchParam = {
     pageSize: number;
     pageIndex: number;
@@ -79,76 +80,83 @@ const AllSubModuleForm = () => {
     setPaginationParams(params);
     updateState({ loading: true, subModules: [] });
   };
-
+  const [addModal, setAddModal] = useState(false);
   return (
-    <div className="p-6 md:p-8 bg-white rounded-lg shadow-sm border border-gray-100">
-      {error && <p style={{ color: "red" }}>{error.message}</p>}
-
-      <table className="min-w-full table-auto text-left border border-gray-200 rounded-lg">
-        <thead>
-          <tr className="bg-gray-50 text-gray-700 uppercase text-sm font-semibold border-b border-gray-200">
-            <th className="py-3 px-4">SN</th>
-            <th className="py-3 px-4">Name</th>
-            <th className="py-3 px-4">ICON URL</th>
-            <th className="py-3 px-4">TARGET URL</th>
-            <th className="py-3 px-4">Rank</th>
-            <th className="py-3 px-4 text-center">Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {allSubModules && allSubModules?.Items?.length > 0 ? (
-            allSubModules.Items?.map(
-              (subModule: ISubModules, index: number) => (
-                <tr
-                  key={index}
-                  className="hover:bg-gray-50 transition-colors border-b border-gray-100"
-                >
-                  <td className="py-3 px-4 text-gray-700">{index + 1}</td>
-                  <td className="py-3 px-4 font-medium text-gray-800">
-                    {subModule.name}
-                  </td>
-                  <td className="py-3 px-4 text-gray-600">
-                    {subModule.iconUrl}
-                  </td>
-                  <td className="py-3 px-4 text-gray-600">
-                    {subModule.targetUrl}
-                  </td>
-
-                  <td className="py-3 px-4 text-gray-600">{subModule.rank}</td>
-                  <td className="py-3 px-4">
-                    <div className="flex items-center justify-center space-x-3">
-                      <DeleteButton
-                        headerText={<Trash className="w-4 h-4" />}
-                        content="By confirming, you will permanently delete this module. Proceed?"
-                        onConfirm={() => handleDelete(subModule.id)}
-                      />
-                      <EditButton button={buttonElement(subModule.id ?? "")} />
-                      {selectedId && (
-                        <EditSubModule
-                          visible={modal}
-                          onClose={() => setShowModal(false)}
-                          subModulesId={selectedId}
-                        />
-                      )}
-                    </div>
-                  </td>
-                </tr>
-              )
-            )
-          ) : (
-            <tr>
-              <td
-                colSpan={3}
-                style={{
-                  padding: "12px",
-                  textAlign: "center",
-                  justifyContent: "center",
-                }}
-              ></td>
+    <div className="md:px-4   ">
+      <div className="overflow-x-auto bg-white dark:bg-[#353535] border border-gray-200 rounded-xl">
+        <div className="flex w-full justify-between p-3 px-4 pt-4 items-center ">
+          <h1 className=" text-lg font-semibold ">All Sub Modules</h1>
+          <ButtonElement
+            icon={<Plus size={24} />}
+            type="button"
+            text="Add New Sub Module"
+            onClick={() => setAddModal(true)}
+            className="!text-md !font-bold"
+          />
+        </div>
+        <table className="min-w-full table-auto text-left border border-gray-200 rounded-lg">
+          <thead>
+            <tr className="bg-gray-50 dark:text-white text-gray-700 dark:bg-[#80878c] uppercase text-sm font-semibold border-b border-gray-200">
+              <th className="py-3 px-4">SN</th>
+              <th className="py-3 px-4">Name</th>
+              <th className="py-3 px-4">ICON URL</th>
+              <th className="py-3 px-4">TARGET URL</th>
+              <th className="py-3 px-4">Rank</th>
+              <th className="py-3 px-4 text-center">Action</th>
             </tr>
-          )}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {allSubModules && allSubModules?.Items?.length > 0 ? (
+              allSubModules.Items?.map(
+                (subModule: ISubModules, index: number) => (
+                  <tr
+                    key={index}
+                    className="hover:bg-gray-50 dark:hover:bg-gray-600  transition-colors border-b border-gray-100 dark:text-gray-100 text-gray-700"
+                  >
+                    <td className="py-3 px-4">{index + 1}</td>
+                    <td className="py-3 px-4 font-medium">{subModule.name}</td>
+                    <td className="py-3 px-4">{subModule.iconUrl}</td>
+                    <td className="py-3 px-4">{subModule.targetUrl}</td>
+
+                    <td className="py-3 px-4">{subModule.rank}</td>
+                    <td className="py-3 px-4">
+                      <div className="flex items-center justify-center space-x-3">
+                        <DeleteButton
+                          headerText={<Trash className="w-4 h-4" />}
+                          content="By confirming, you will permanently delete this module. Proceed?"
+                          onConfirm={() => handleDelete(subModule.id)}
+                        />
+                        <EditButton
+                          button={buttonElement(subModule.id ?? "")}
+                        />
+                        {selectedId && (
+                          <EditSubModule
+                            visible={modal}
+                            onClose={() => setShowModal(false)}
+                            subModulesId={selectedId}
+                          />
+                        )}
+                      </div>
+                    </td>
+                  </tr>
+                )
+              )
+            ) : (
+              <tr>
+                <td
+                  colSpan={3}
+                  style={{
+                    padding: "12px",
+                    textAlign: "center",
+                    justifyContent: "center",
+                  }}
+                ></td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
+      <AddSubModule visible={addModal} onClose={() => setAddModal(false)} />
       {allSubModules && allSubModules?.Items?.length > 0 && (
         <Pagination
           form={handleSubmit}

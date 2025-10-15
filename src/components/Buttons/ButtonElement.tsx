@@ -38,7 +38,7 @@ export const ButtonElement = ({
       className={`px-3 py-2 text-sm font-medium text-white rounded-md ${className}  ${customStyle} transition ${
         disabled
           ? "bg-gray-400 cursor-not-allowed"
-          : "bg-teal-400 hover:bg-teal-600"
+          : "bg-[#035BBA] hover:bg-[#4788CD]"
       }`}
     >
       <div className="flex items-center justify-center">

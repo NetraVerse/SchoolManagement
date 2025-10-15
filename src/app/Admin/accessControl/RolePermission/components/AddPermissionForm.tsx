@@ -43,74 +43,65 @@ const AddPermissionForm = ({ form, onClose }: Props) => {
   };
 
   return (
-    <div
-      id="container"
-      className="fixed inset-0 flex justify-center items-center border-rounded-lg bg-opacity-30 backdrop-blur-sm"
-    >
-      <div className="max-h-screen w-[20rem]">
-        <div className="rounded-lg">
+    <div className="fixed inset-0 flex justify-center items-center bg-black/30 backdrop-blur-sm z-50">
+      <div className="w-full max-w-md mx-4">
+        <fieldset className="bg-white dark:bg-[#353535] rounded-xl shadow-xl p-6 border border-gray-200">
+          <div className="flex justify-between items-center mb-4">
+            <h1 className="text-xl font-semibold text-gray-800 dark:text-gray-50">
+              Add Permission
+            </h1>
+            <button
+              type="button"
+              onClick={onClose}
+              className="text-red-400 text-2xl hover:text-red-500 "
+            >
+              <X className="w-8 h-7" strokeWidth={3} />
+            </button>
+          </div>
           <form onSubmit={form.handleSubmit(onSubmit)}>
-            <fieldset className="bg-white p-6 border-solid border-gray-200 border shadow-lg">
-              <div className="flex justify-between items-center mb-4">
-                <h1 className="text-lg  font-semibold">Add Permission</h1>
-                <button
-                  type="button"
-                  onClick={onClose}
-                  className="text-red-400 text-2xl hover:text-red-500 "
-                >
-                  <X className="w-8 h-7" strokeWidth={3} />
-                </button>
-              </div>
-              <div className="flex items-center gap-4 mb-6">
-                <div className="grid grid-rows-2 gap-4 flex-1">
-                  <InputElement
-                    label="Name"
-                    form={form}
-                    layout="row"
-                    name="name"
-                    placeholder="Enter permission name"
-                  />
-                  <div className="mb-4">
-                    <AppCombobox
-                      value={roleId}
-                      dropDownWidth="w-full"
-                      name="roleId"
-                      dropdownPositionClass="absolute"
-                      label="Roles"
-                      options={roles?.Items}
-                      selected={
-                        roles?.Items.find((g) => g.Id === roleId) || null
+            <div className="flex items-center gap-4 mb-6">
+              <div className="grid grid-rows-2 gap-4 flex-1">
+                <InputElement
+                  label="Name"
+                  form={form}
+                  layout="row"
+                  name="name"
+                  placeholder="Enter permission name"
+                />
+                <div className="mb-4">
+                  <AppCombobox
+                    value={roleId}
+                    dropDownWidth="w-full"
+                    name="roleId"
+                    dropdownPositionClass="absolute"
+                    label="Roles"
+                    options={roles?.Items}
+                    selected={roles?.Items.find((g) => g.Id === roleId) || null}
+                    onSelect={(group) => {
+                      if (group) {
+                        setRoleId(group.Id || "");
+                        handleSelectRole(group.Id || "");
+                      } else {
+                        setRoleId("");
                       }
-                      onSelect={(group) => {
-                        if (group) {
-                          setRoleId(group.Id || "");
-                          handleSelectRole(group.Id || "");
-                        } else {
-                          setRoleId("");
-                        }
-                      }}
-                      getLabel={(g) => g?.Name || ""}
-                      getValue={(g) => g?.Id ?? ""}
-                    />
-                  </div>
+                    }}
+                    getLabel={(g) => g?.Name || ""}
+                    getValue={(g) => g?.Id ?? ""}
+                  />
                 </div>
               </div>
-              <div className="flex mt-4 justify-center space-x-2">
-                <ButtonElement
-                  type="submit"
-                  customStyle="hover:bg-teal-700 transition-all !text-xm font-bold !bg-teal-500"
-                  text="Submit"
-                />
-                <ButtonElement
-                  type="button"
-                  customStyle="hover:bg-gray-700 transition-all !text-xm font-bold !bg-gray-400 "
-                  text="Discard"
-                  handleClick={handleClose}
-                />
-              </div>
-            </fieldset>
+            </div>
+            <div className="flex mt-4 justify-center space-x-2">
+              <ButtonElement type="submit" text="Submit" />
+              <ButtonElement
+                type="button"
+                customStyle="hover:bg-gray-700 transition-all !text-xm font-bold !bg-gray-400 "
+                text="Discard"
+                handleClick={handleClose}
+              />
+            </div>
           </form>
-        </div>
+        </fieldset>
       </div>
     </div>
   );

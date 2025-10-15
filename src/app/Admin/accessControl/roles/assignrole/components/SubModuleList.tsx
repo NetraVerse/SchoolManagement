@@ -39,7 +39,7 @@ const SubModuleList = ({
               onChange={() => handleSelectAllChange(allSubModIds)}
             />
             <div className="w-10 h-5 bg-gray-300 rounded-full peer peer-checked:bg-blue-500 transition-all"></div>
-            <div className="absolute left-1 top-1 w-4 h-4 bg-white rounded-full shadow transform transition-all peer-checked:translate-x-5"></div>
+            <div className="absolute left-1  w-4 h-4 bg-white rounded-full shadow transform transition-all peer-checked:translate-x-5"></div>
           </label>
         </div>
       )}
@@ -58,7 +58,7 @@ const SubModuleList = ({
                 onChange={() => handleCheckboxChange(subModule.id)}
               />
               <div className="w-10 h-5 bg-gray-200 rounded-full peer peer-checked:bg-blue-500 transition-all"></div>
-              <div className="absolute left-1 top-1 w-4 h-4 bg-white rounded-full shadow transform transition-all peer-checked:translate-x-5"></div>
+              <div className="absolute left-1 w-4 h-4 bg-white rounded-full shadow transform transition-all peer-checked:translate-x-5"></div>
             </label>
           </div>
         ))

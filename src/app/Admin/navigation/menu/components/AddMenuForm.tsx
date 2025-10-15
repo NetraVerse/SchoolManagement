@@ -42,106 +42,99 @@ const AddMenuForm = ({ form, onClose }: Props) => {
 
   const { data: submodules } = useGetAllSubModules();
   return (
-    <div
-      id="container"
-      className="fixed inset-0 flex justify-center items-center border-rounded-lg bg-opacity-30 backdrop-blur-sm"
-    >
-      <div className=" max-h-screen w-[25rem]">
-        <div className="rounded-lg">
-          <form onSubmit={form.handleSubmit(onSubmit)}>
-            <fieldset className="bg-white p-6 border-solid border-gray-200 border shadow-lg">
-              <div className="flex justify-between items-center mb-4">
-                <h1 className="text-lg  font-semibold">Add Menu</h1>
-                <button
-                  type="button"
-                  onClick={onClose}
-                  className="text-red-400 text-2xl hover:text-red-500 "
-                >
-                  <X strokeWidth={3} />
-                </button>
-              </div>
-              <div className="mb-4">
-                <InputElement
-                  label="Name"
-                  layout="column"
-                  form={form}
-                  name="name"
-                  placeholder="Enter menu name"
-                />
-              </div>
-              <div className="mb-4">
-                <InputElement
-                  label="Target Url"
-                  layout="column"
-                  form={form}
-                  name="targetUrl"
-                  placeholder="Enter Target Url"
-                  customStyle="placeholder:text-red-300"
-                />
-              </div>
-              <div className="mb-4">
-                <InputElement
-                  label="Icon Url"
-                  layout="column"
-                  form={form}
-                  name="iconUrl"
-                  placeholder="Enter Icon URl"
-                />
-              </div>
-              <div className="mb-4">
-                <AppCombobox
-                  value={subModuleId}
-                  dropDownWidth="w-full"
-                  name="sub"
-                  dropdownPositionClass="absolute"
-                  label="Sub Modules"
-                  options={submodules?.Items}
-                  selected={
-                    submodules?.Items.find((g) => g.id === subModuleId) || null
+    <div className="fixed inset-0 flex justify-center items-center bg-black/30 backdrop-blur-sm z-50">
+      <div className="w-full max-w-md mx-4">
+        <fieldset className="bg-white dark:bg-[#353535] rounded-xl shadow-xl p-6 border border-gray-200">
+          <div className="flex justify-between items-center mb-6">
+            <h1 className="text-xl font-semibold text-gray-800 dark:text-gray-50">
+              Add Menu
+            </h1>
+            <button
+              type="button"
+              onClick={onClose}
+              className="text-gray-400  hover:text-red-500 transition-colors"
+            >
+              <X strokeWidth={3} color="red" />
+            </button>
+          </div>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <div className="mb-4">
+              <InputElement
+                label="Name"
+                layout="column"
+                form={form}
+                name="name"
+                placeholder="Enter menu name"
+              />
+            </div>
+            <div className="mb-4">
+              <InputElement
+                label="Target Url"
+                layout="column"
+                form={form}
+                name="targetUrl"
+                placeholder="Enter Target Url"
+                customStyle="placeholder:text-red-300"
+              />
+            </div>
+            <div className="mb-4">
+              <InputElement
+                label="Icon Url"
+                layout="column"
+                form={form}
+                name="iconUrl"
+                placeholder="Enter Icon URl"
+              />
+            </div>
+            <div className="mb-4">
+              <AppCombobox
+                value={subModuleId}
+                dropDownWidth="w-full"
+                name="sub"
+                dropdownPositionClass="absolute"
+                label="Sub Modules"
+                options={submodules?.Items}
+                selected={
+                  submodules?.Items.find((g) => g.id === subModuleId) || null
+                }
+                onSelect={(group) => {
+                  if (group) {
+                    setSubModuleId(group.id || "");
+                    handleSelectSubModule(group.id || "");
+                  } else {
+                    setSubModuleId("");
                   }
-                  onSelect={(group) => {
-                    if (group) {
-                      setSubModuleId(group.id || "");
-                      handleSelectSubModule(group.id || "");
-                    } else {
-                      setSubModuleId("");
-                    }
-                  }}
-                  getLabel={(g) => g?.name || ""}
-                  getValue={(g) => g?.id ?? ""}
-                />
-              </div>
+                }}
+                getLabel={(g) => g?.name || ""}
+                getValue={(g) => g?.id ?? ""}
+              />
+            </div>
 
-              <div className="mb-4">
-                <InputElement
-                  label="Rank"
-                  layout="column"
-                  form={form}
-                  name="rank"
-                  placeholder="Enter rank name"
-                />
-              </div>
-              <div className="mb-2 flex items-center">
-                <InputElement
-                  label=""
-                  layout="column"
-                  form={form}
-                  inputTypeCheckBox="checkbox"
-                  name="isActive"
-                  customStyle="!border-0 after:!content-none"
-                />
-                <p className="ml-4 ">Is Active</p>
-              </div>
-              <div className="flex mt-4 justify-center space-x-2">
-                <ButtonElement
-                  type="submit"
-                  className="hover:bg-teal-700 transition-all !text-xm font-bold !bg-teal-500"
-                  text="Submit"
-                />
-              </div>
-            </fieldset>
+            <div className="mb-4">
+              <InputElement
+                label="Rank"
+                layout="column"
+                form={form}
+                name="rank"
+                placeholder="Enter rank name"
+              />
+            </div>
+            <div className="mb-2 flex items-center">
+              <InputElement
+                label=""
+                layout="column"
+                form={form}
+                inputTypeCheckBox="checkbox"
+                name="isActive"
+                customStyle="!border-0 after:!content-none"
+              />
+              <p className="ml-4 ">Is Active</p>
+            </div>
+            <div className="flex mt-4 justify-center space-x-2">
+              <ButtonElement type="submit" text="Submit" />
+            </div>
           </form>
-        </div>
+        </fieldset>
       </div>
     </div>
   );
