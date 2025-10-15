@@ -15,8 +15,6 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
-import DeleteButton from "../Buttons/DeleteButton";
-import DialogButton from "../Buttons/DialogButton";
 
 type Props = {
   sideBarItems: ISidebar;
@@ -33,8 +31,8 @@ const Sidebar: React.FC<Props> = ({ isOpen, sideBarItems }: Props) => {
   let role = "";
   if (storedUser) {
     try {
-      const parsedUser = JSON.parse(storedUser); // parse JSON
-      role = parsedUser.role; // extract the role
+      const parsedUser = JSON.parse(storedUser);
+      role = parsedUser.role;
     } catch (error) {
       console.error("Failed to parse user details:", error);
     }
@@ -126,15 +124,13 @@ const Sidebar: React.FC<Props> = ({ isOpen, sideBarItems }: Props) => {
   const handleSelectSubModule = (subModuleId: string) => {
     setActiveSubModule(subModuleId);
   };
-
   return (
     <div
-      className={`h-screen flex flex-col bg-white border-r border-gray-200 shadow-sm transition-all duration-300 ${
+      className={`h-screen flex flex-col dark:bg-[#353535] bg-white border-r border-gray-200 shadow-sm transition-all duration-300 ${
         isOpen ? "w-16 md:w-64" : "w-16"
       }`}
     >
-      {/* Logo */}
-      <div className="p-4  py-6 flex justify-center md:justify-start border-b border-gray-200">
+      <div className="p-4 pb-[1.7rem] pt-6 flex justify-center md:justify-start border-b border-gray-200">
         <Link
           href="/Admin/dashboard"
           className="flex items-center cursor-pointer"
@@ -144,7 +140,7 @@ const Sidebar: React.FC<Props> = ({ isOpen, sideBarItems }: Props) => {
           </span>
         </Link>
       </div>
-      <div className="flex items-center justify-between px-4 py-2 bg-white shadow-sm  ">
+      <div className="flex items-center justify-between px-4 text-gray-800 dark:text-white py-2 bg-white shadow-sm border-y dark:border-white dark:bg-[#353535] ">
         <div className="relative w-9 h-9">
           <img
             src={adi.src}
@@ -152,7 +148,7 @@ const Sidebar: React.FC<Props> = ({ isOpen, sideBarItems }: Props) => {
             className="w-8 h-9 rounded-full object-cover cursor-pointer ml-auto"
           />
         </div>
-        <span className="text-md font-semibold text-gray-800 group-hover:text-blue-600 transition-colors hidden md:inline">
+        <span className="text-md  font-semibold  group-hover:text-blue-600 transition-colors hidden md:inline">
           Super Admin
         </span>
         <button
@@ -160,10 +156,9 @@ const Sidebar: React.FC<Props> = ({ isOpen, sideBarItems }: Props) => {
           className="p-2 rounded-full hover:bg-gray-100 transition-colors cursor-pointer"
           aria-label="Logout"
         >
-          <LogOut className="text-gray-600 hover:text-red-500 transition-colors" />
+          <LogOut className=" hover:text-red-500 transition-colors" />
         </button>
       </div>
-      {/* Navigation */}
       <div className="flex-1 mt-4 px-2 overflow-y-auto space-y-1">
         {navLinks
           .filter((item) =>
@@ -184,12 +179,12 @@ const Sidebar: React.FC<Props> = ({ isOpen, sideBarItems }: Props) => {
                   href={item.url}
                   className={`group relative flex items-center gap-3 px-3 py-3 rounded-lg text-sm font-medium transition-all duration-200 ${
                     active
-                      ? "bg-[#E0F3E0] text-[#0C6338] font-semibold rounded-l-none"
-                      : "text-gray-600 hover:bg-gray-50 hover:text-gray-800"
+                      ? "bg-[#CCE3FC] text-[#035BBA] font-semibold rounded-l-none"
+                      : "text-gray-600 hover:bg-gray-300 dark:text-white hover:text-gray-800 dark:hover:text-black"
                   }`}
                 >
                   {active && (
-                    <span className="absolute left-0 top-0 h-full w-[3px] bg-[#0C6338] rounded-r-lg" />
+                    <span className="absolute left-0 top-0 h-full w-[3px] bg-[#035BBA] rounded-r-lg" />
                   )}
                   {item.icon && <item.icon size={18} />}
                   <span className="hidden md:inline">{item.name}</span>
@@ -203,16 +198,16 @@ const Sidebar: React.FC<Props> = ({ isOpen, sideBarItems }: Props) => {
                   onClick={() => toggleSection(item.key)}
                   className={`w-full flex items-center justify-between px-3 py-3 rounded-lg text-sm font-medium transition-all duration-200 ${
                     hasActiveChild
-                      ? "bg-[#E0F3E0] text-[#0C6338] font-semibold rounded-l-none"
-                      : "text-gray-600 hover:bg-gray-50 hover:text-gray-800"
+                      ? "bg-[#CCE3FC] text-[#035BBA] font-semibold rounded-l-none"
+                      : "text-gray-600 hover:bg-gray-300 dark:text-white hover:text-gray-800 dark:hover:text-black"
                   }`}
                 >
                   {hasActiveChild && (
-                    <span className="absolute left-0 top-0 h-full w-[3px] bg-[#0C6338] rounded-r-lg" />
+                    <span className="absolute left-0 top-0 h-full w-[3px] bg-[#035BBA] rounded-r-lg" />
                   )}
                   <div className="flex items-center gap-3">
                     {item.icon && <item.icon size={18} />}
-                    <span className="hidden md:inline">{item.name}</span>
+                    <span className="hidden md:inline  ">{item.name}</span>
                   </div>
                   <span className="hidden md:inline">
                     {isOpen ? (
@@ -238,8 +233,8 @@ const Sidebar: React.FC<Props> = ({ isOpen, sideBarItems }: Props) => {
                         }
                         className={`flex items-center gap-2 px-3 py-2 rounded-md text-sm ml-4 transition-colors ${
                           activeSub
-                            ? "bg-[#dae4da] text-[#0C6338] font-medium"
-                            : "text-gray-500 hover:text-gray-800 hover:bg-gray-100"
+                            ? "bg-[#e5f1fe] text-[#035BBA] font-medium"
+                            : "text-gray-600 hover:bg-gray-200 dark:hover:bg-gray-400 dark:text-[#e2e2e2] hover:text-gray-800 dark:hover:text-black"
                         }`}
                       >
                         <span className="hidden md:inline">{subItem.name}</span>

@@ -1,20 +1,12 @@
 {
   "module": [
     {
-      "name": "Initillization",
-      "iconUrl": "CircleGauge",
-      "targetUrl": "",
-      "routeName": "dashboard",
-      "role": ["developeruser"],
-      "subModulesResponse": [
-        {
-          "name": "Initiallize",
-          "iconUrl": "User",
-          "targetUrl": "/developer/initialize/organization",
-          "routeName": "users",
-          "role": ["developeruser"]
-        }
-      ]
+      "name": "Dashboard",
+      "iconUrl": "Home",
+      "targetUrl": "/Admin/dashboard",
+      "routeName": "users",
+      "role": ["superadmin"],
+       "subModulesResponse": []
     },
 
     {

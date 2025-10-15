@@ -8,8 +8,9 @@ import EditModule from "../pages/Edit";
 import DeleteButton from "@/components/Buttons/DeleteButton";
 import { useRemoveModule } from "../hooks";
 import { ButtonElement } from "@/components/Buttons/ButtonElement";
-import { Edit, Trash } from "lucide-react";
+import { Edit, Plus, Trash } from "lucide-react";
 import Pagination from "@/components/Pagination";
+import Add from "../pages/Add";
 const AllModuleForm = () => {
   const [modal, setShowModal] = useState(false);
   const [selectedId, setSelectedId] = useState<string>("");
@@ -24,7 +25,7 @@ const AllModuleForm = () => {
           setShowModal(true);
           setSelectedId(id);
         }}
-        className="!text-xs font-bold !bg-teal-500"
+        className="!text-xs font-semibold !bg-blue-500 hover:!bg-blue-600"
       />
     );
   };
@@ -42,9 +43,9 @@ const AllModuleForm = () => {
   const updateState = (updates: Partial<typeof state>) => {
     setState((prev) => ({ ...prev, ...updates }));
   };
-
+  const [addModal, setAddModal] = useState(false);
   const query = `?pagesize=${paginationParams.pageSize}&pageIndex=${paginationParams.pageIndex}&IsPagination=${paginationParams.isPagination}`;
-  const { data: allModules, error, refetch } = useGetAllModules(query);
+  const { data: allModules, refetch } = useGetAllModules(query);
   type SearchParam = {
     pageSize: number;
     pageIndex: number;
@@ -77,17 +78,21 @@ const AllModuleForm = () => {
   };
 
   return (
-    <div className="p-6 md:p-8 bg-white rounded-lg shadow-sm border border-gray-100">
-      {error && (
-        <p className="text-red-500 text-sm mb-4">
-          {error.message ?? "Error fetching modules"}
-        </p>
-      )}
-
-      <div className="overflow-x-auto">
-        <table className="min-w-full table-auto text-left border border-gray-200 rounded-lg">
+    <div className="md:px-4  px-4 ">
+      <div className="overflow-x-auto bg-white border border-gray-200 rounded-xl dark:bg-[#353535]">
+        <div className="flex w-full justify-between p-3 px-4 pt-4 items-center ">
+          <h1 className=" text-xl font-semibold ">All Modules</h1>
+          <ButtonElement
+            icon={<Plus size={24} />}
+            type="button"
+            text="Add New Module"
+            onClick={() => setAddModal(true)}
+            className="!text-md !font-bold"
+          />
+        </div>
+        <table className="min-w-full table-auto text-left border border-gray-200 rounded-xl">
           <thead>
-            <tr className="bg-gray-50 text-gray-700 uppercase text-sm font-semibold border-b border-gray-200">
+            <tr className="bg-gray-50 dark:text-white text-gray-700 dark:bg-[#80878c] uppercase text-sm font-semibold border-b border-gray-200">
               <th className="py-3 px-4">SN</th>
               <th className="py-3 px-4">Name</th>
               <th className="py-3 px-4">Target URL</th>
@@ -101,17 +106,13 @@ const AllModuleForm = () => {
               allModules.Items.map((module: IModules, index: number) => (
                 <tr
                   key={index}
-                  className="hover:bg-gray-50 transition-colors border-b border-gray-100"
+                  className="hover:bg-gray-50 dark:hover:bg-gray-600  transition-colors border-b border-gray-100 dark:text-gray-100 text-gray-700"
                 >
-                  <td className="py-3 px-4 text-gray-700">{index + 1}</td>
-                  <td className="py-3 px-4 font-medium text-gray-800">
-                    {module.Name}
-                  </td>
-                  <td className="py-3 px-4 text-gray-600">
-                    {module.TargetUrl}
-                  </td>
-                  <td className="py-3 px-4 text-gray-600">{module.IconUrl}</td>
-                  <td className="py-3 px-4 text-gray-600">{module.Rank}</td>
+                  <td className="py-3 px-4 ">{index + 1}</td>
+                  <td className="py-3 px-4 font-medium ">{module.Name}</td>
+                  <td className="py-3 px-4 ">{module.TargetUrl}</td>
+                  <td className="py-3 px-4 ">{module.IconUrl}</td>
+                  <td className="py-3 px-4 ">{module.Rank}</td>
                   <td className="py-3 px-4">
                     <div className="flex items-center justify-center space-x-3">
                       <DeleteButton
@@ -164,6 +165,7 @@ const AllModuleForm = () => {
           handleSearch={handleSearch}
         />
       )}
+      <Add visible={addModal} onClose={() => setAddModal(false)} />
     </div>
   );
 };

@@ -1,9 +1,7 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, MouseEvent } from "react";
 import { useAssignRole } from "../hooks";
-import { MouseEvent } from "react";
-import { useGetAllRoles } from "../../roles/hooks";
-import { useGetRolesByUserId } from "../../roles/hooks";
+import { useGetAllRoles, useGetRolesByUserId } from "../../roles/hooks";
 import { ButtonElement } from "@/components/Buttons/ButtonElement";
 import { IAssign } from "../types/IUserResponse";
 import { useForm, SubmitHandler } from "react-hook-form";
@@ -20,6 +18,7 @@ const AssignRoleForm = ({ userId, visible, onClose }: Props) => {
   const { data: assignedData } = useGetRolesByUserId(userId);
   const [selectedRole, setSelectedRole] = useState<string | null>(null);
   const assignRole = useAssignRole();
+
   const assignedRoleIds = assignedData
     ? assignedData.map((role: { Id: string }) => role.Id)
     : [];
@@ -40,10 +39,9 @@ const AssignRoleForm = ({ userId, visible, onClose }: Props) => {
 
   const onSubmit: SubmitHandler<IAssign> = async () => {
     if (!selectedRole) {
-      console.log("No menu selected");
+      console.log("No role selected");
       return;
     }
-
     try {
       await assignRole.mutateAsync({
         userId,
@@ -56,6 +54,7 @@ const AssignRoleForm = ({ userId, visible, onClose }: Props) => {
       onClose();
     }
   };
+
   const handleOnClose = (e: MouseEvent<HTMLDivElement>) => {
     if ((e.target as HTMLDivElement).id === userId) onClose();
   };
@@ -66,43 +65,53 @@ const AssignRoleForm = ({ userId, visible, onClose }: Props) => {
     <div
       onClick={handleOnClose}
       id={userId}
-      className="
-    absolute lg:ml-[-5.6%] md:ml-[-18.6%] lg:mt-[10%] md:mt-[-12%] 
-    bg-white p-4 rounded-xl shadow-md border border-gray-200
-    w-[20rem] md:w-[12rem] sm:w-[16rem] max-h-[40vh] h-36 w-3 overflow-y-auto z-20
-  "
+      className="fixed inset-0 flex justify-center items-start pt-24 bg-black/30 backdrop-blur-sm z-50 p-4"
     >
-      <h1 className="text-xl font-semibold mb-2">Assign Roles</h1>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        {roles && roles.Items.length > 0
-          ? roles.Items.map((role) => {
-              const isAssigned = assignedRoleIds.includes(role.Id);
-              return (
-                <div key={role.Id} className="">
-                  <div className="flex items-center h-fit drop-shadow-md p-2 space w-fit py-1 rounded-sm">
+      <div className="bg-white rounded-xl shadow-xl border border-gray-200 w-full max-w-xs max-h-[60vh] overflow-y-auto p-4">
+        <h1 className="text-lg font-semibold mb-4 text-gray-800">
+          Assign Roles
+        </h1>
+
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-2">
+          {roles && roles.Items.length > 0
+            ? roles.Items.map((role) => {
+                const isAssigned = assignedRoleIds.includes(role.Id);
+                return (
+                  <label
+                    key={role.Id}
+                    className={`flex items-center p-2 rounded-md cursor-pointer transition 
+                      ${isAssigned ? "bg-gray-100" : "hover:bg-gray-50"}`}
+                  >
                     <input
                       type="checkbox"
+                      className="w-4 h-4 text-teal-500"
                       checked={selectedRole === role.Id || isAssigned}
                       onChange={() => handleCheckboxChange(role.Id, isAssigned)}
                       disabled={
                         selectedRole !== null && selectedRole !== role.Id
                       }
                     />
-                    <div className="text-md font-medium ml-2">{role.Name}</div>
-                  </div>
-                </div>
-              );
-            })
-          : !isLoading && <p className="text-sm ml-8">No Roles found</p>}
+                    <span className="ml-2 text-gray-700 font-medium">
+                      {role.Name}
+                    </span>
+                  </label>
+                );
+              })
+            : !isLoading && (
+                <p className="text-sm text-gray-500 text-center mt-2">
+                  No roles found
+                </p>
+              )}
 
-        <div className="flex justify-center mt-4">
-          <ButtonElement
-            type="submit"
-            className="hover:bg-teal-700 transition-all"
-            text={"Submit"}
-          />
-        </div>
-      </form>
+          <div className="flex justify-center mt-4">
+            <ButtonElement
+              type="submit"
+              text="Submit"
+              className="bg-teal-500 hover:bg-teal-600 text-white font-semibold px-4 py-2 rounded-lg transition"
+            />
+          </div>
+        </form>
+      </div>
     </div>
   );
 };

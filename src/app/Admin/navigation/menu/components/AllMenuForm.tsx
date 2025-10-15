@@ -7,10 +7,11 @@ import { useRemoveMenu } from "../hooks";
 import Pagination from "@/components/Pagination";
 import { ButtonElement } from "@/components/Buttons/ButtonElement";
 import DeleteButton from "@/components/Buttons/DeleteButton";
-import { Edit, Trash } from "lucide-react";
+import { Edit, Plus, Trash } from "lucide-react";
 import EditMenu from "../pages/Edit";
 import { EditButton } from "@/components/Buttons/EditButton";
 import { useRouter } from "next/navigation";
+import Add from "../pages/Add";
 const AllMenuForm = () => {
   const [modal, setShowModal] = useState(false);
   const [selectedId, setSelectedId] = useState<string>("");
@@ -25,7 +26,7 @@ const AllMenuForm = () => {
           setShowModal(true);
           setSelectedId(id);
         }}
-        className="!text-xs font-bold !bg-teal-500"
+        className="!text-xs font-semibold !bg-blue-500 hover:!bg-blue-600"
       />
     );
   };
@@ -79,98 +80,81 @@ const AllMenuForm = () => {
     setPaginationParams(params);
     updateState({ loading: true, menus: [] });
   };
-
+  const [addModal, setAddModal] = useState(false);
   return (
-    <div
-      style={{
-        margin: "20px",
-      }}
-      className="p-4"
-    >
-      {error && <p style={{ color: "red" }}>{error.message}</p>}
-      <table
-        style={{
-          minWidth: "600px",
-          width: "100%",
-          borderCollapse: "collapse",
-          marginBottom: "20px",
-          tableLayout: "fixed",
-        }}
-      >
-        <thead>
-          <tr style={{ backgroundColor: "#f2f2f2", textAlign: "left" }}>
-            <th style={{ padding: "12px", borderBottom: "2px solid #ddd" }}>
-              SN
-            </th>
-            <th style={{ padding: "12px", borderBottom: "2px solid #ddd" }}>
-              Name
-            </th>
-            <th style={{ padding: "12px", borderBottom: "2px solid #ddd" }}>
-              TargetUrl
-            </th>
-            <th style={{ padding: "12px", borderBottom: "2px solid #ddd" }}>
-              IconUrl
-            </th>
-            <th style={{ padding: "12px", borderBottom: "2px solid #ddd" }}>
-              Rank
-            </th>
-            <th style={{ padding: "12px", borderBottom: "2px solid #ddd" }}>
-              Action
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {allMenus && allMenus?.Items?.length > 0 ? (
-            allMenus?.Items?.map((menu: IMenu, index: number) => (
-              <tr key={index}>
-                <td style={{ padding: "12px", borderBottom: "1px solid #ddd" }}>
-                  {index + 1}
-                </td>
-                <td style={{ padding: "12px", borderBottom: "1px solid #ddd" }}>
-                  {menu.name}
-                </td>
-                <td style={{ padding: "12px", borderBottom: "1px solid #ddd" }}>
-                  {menu.targetUrl}
-                </td>
-                <td style={{ padding: "12px", borderBottom: "1px solid #ddd" }}>
-                  {menu.iconUrl}
-                </td>
-                <td style={{ padding: "12px", borderBottom: "1px solid #ddd" }}>
-                  {menu.rank}
-                </td>
-                <td style={{ padding: "12px", borderBottom: "1px solid #ddd" }}>
-                  <div className="flex space-x-2">
-                    <DeleteButton
-                      onConfirm={() => handleDelete(menu.id)}
-                      headerText={<Trash />}
-                      content="Are you sure you want to delete this menu?"
-                    />
-                    <EditButton button={buttonElement(menu.id ?? "")} />
-                    {selectedId && selectedId !== "" && (
-                      <EditMenu
-                        visible={modal}
-                        onClose={() => setShowModal(false)}
-                        menuId={selectedId}
-                      />
-                    )}
-                  </div>
-                </td>
+    <div className="md:px-4  px-4 ">
+      <div className="overflow-x-auto bg-white dark:bg-[#353535] border border-gray-200 rounded-xl">
+        <div className="flex w-full justify-between p-3 px-4 pt-4 items-center ">
+          <h1 className=" text-xl font-semibold ">All Menus</h1>
+          <ButtonElement
+            icon={<Plus size={24} />}
+            type="button"
+            text="Add New Menu"
+            onClick={() => setAddModal(true)}
+            className="!text-md !font-bold"
+          />
+        </div>
+        <div className="overflow-x-auto">
+          <table className="min-w-full table-auto text-left border border-gray-200 rounded-lg">
+            <thead>
+              <tr className="bg-gray-50 dark:text-white text-gray-700 dark:bg-[#80878c] uppercase text-sm font-semibold border-b border-gray-200">
+                <th className="py-3 px-4">SN</th>
+                <th className="py-3 px-4">Name</th>
+                <th className="py-3 px-4">TargetUrl</th>
+                <th className="py-3 px-4">IconUrl</th>
+                <th className="py-3 px-4">Rank</th>
+                <th className="py-3 px-4">Action</th>
               </tr>
-            ))
-          ) : (
-            <tr>
-              <td
-                colSpan={3}
-                style={{
-                  padding: "12px",
-                  textAlign: "center",
-                  justifyContent: "center",
-                }}
-              ></td>
-            </tr>
-          )}
-        </tbody>
-      </table>
+            </thead>
+            <tbody>
+              {allMenus && allMenus?.Items?.length > 0 ? (
+                allMenus?.Items?.map((menu: IMenu, index: number) => (
+                  <tr
+                    key={index}
+                    className="hover:bg-gray-50 dark:hover:bg-gray-600  transition-colors border-b border-gray-100 dark:text-gray-100 text-gray-700"
+                  >
+                    <td className="py-3 px-4 ">{index + 1}</td>
+                    <td className="py-3 px-4 ">{menu.name}</td>
+                    <td className="py-3 px-4 ">{menu.targetUrl}</td>
+                    <td className="py-3 px-4 ">{menu.iconUrl}</td>
+                    <td className="py-3 px-4 ">{menu.rank}</td>
+                    <td className="py-3 px-4 ">
+                      <div className="flex space-x-2">
+                        <DeleteButton
+                          onConfirm={() => handleDelete(menu.id)}
+                          headerText={<Trash />}
+                          content="Are you sure you want to delete this menu?"
+                        />
+                        <EditButton button={buttonElement(menu.id ?? "")} />
+                        {selectedId && selectedId !== "" && (
+                          <EditMenu
+                            visible={modal}
+                            onClose={() => setShowModal(false)}
+                            menuId={selectedId}
+                          />
+                        )}
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td
+                    colSpan={3}
+                    style={{
+                      padding: "12px",
+                      textAlign: "center",
+                      justifyContent: "center",
+                    }}
+                  ></td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+          <Add visible={addModal} onClose={() => setAddModal(false)} />
+        </div>
+      </div>
+
       {allMenus && allMenus?.Items?.length > 0 && (
         <Pagination
           form={handleSubmit}

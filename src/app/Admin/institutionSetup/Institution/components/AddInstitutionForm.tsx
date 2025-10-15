@@ -34,24 +34,23 @@ const AddInstitutionForm = ({ form, onClose }: Props) => {
   };
   const { data: organization } = useGetAllOrganization();
   return (
-    <div
-      id="container"
-      className="fixed inset-0 flex justify-center h-full items-center border-rounded-lg bg-opacity-30 backdrop-blur-sm"
-    >
-      <div className=" w-[32rem] flex bg-white py-4 rounded-lg drop-shadow-lg">
-        <div className="w-full p-4">
+    <div className="fixed inset-0 flex justify-center items-center bg-black/30 backdrop-blur-sm z-50">
+      <div className="w-full max-w-lg mx-4">
+        <fieldset className="bg-white dark:bg-[#353535] rounded-xl shadow-xl p-6 border border-gray-200">
+          <div className="flex justify-between items-center mb-6">
+            <h1 className="text-xl font-semibold text-gray-800 dark:text-gray-50">
+              Add Institution
+            </h1>
+            <button
+              type="button"
+              onClick={onClose}
+              className="text-red-400 text-2xl hover:text-red-500 "
+            >
+              <X strokeWidth={3} />
+            </button>
+          </div>
           <form onSubmit={form.handleSubmit(onSubmit)}>
-            <div className="flex justify-between items-center mb-4">
-              <h1 className="text-lg  font-semibold">Add Institution</h1>
-              <button
-                type="button"
-                onClick={onClose}
-                className="text-red-400 text-2xl hover:text-red-500 "
-              >
-                <X strokeWidth={3} />
-              </button>
-            </div>
-            <div className="flex justify-evenly mt-6">
+            <div className="flex justify-between mt-6">
               <div>
                 <div className="mb-4">
                   <InputElement
@@ -188,14 +187,10 @@ const AddInstitutionForm = ({ form, onClose }: Props) => {
               </div>
             </div>
             <div className="flex justify-center mt-4 ">
-              <ButtonElement
-                type="submit"
-                customStyle="hover:bg-teal-700 transition-all !text-xm !font-bold"
-                text={"Submit"}
-              />
+              <ButtonElement type="submit" text={"Submit"} />
             </div>
           </form>
-        </div>
+        </fieldset>
       </div>
     </div>
   );

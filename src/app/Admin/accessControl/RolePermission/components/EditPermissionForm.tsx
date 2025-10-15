@@ -52,56 +52,65 @@ const EditRolePermissionForm = ({ form, Id, onClose }: Props) => {
     }
   };
   return (
-    <div
-      id="container"
-      className=" fixed inset-0 flex justify-center items-center border-rounded-lg bg-opacity-30 z-[5] backdrop-blur-sm"
-    >
-      <div className="w-[20rem] flex justify-center bg-white rounded-lg drop-shadow-lg py-4">
-        <div>
-          <h1 className="mb-4 text-lg font-semibold flex justify-between">
-            Update Permission
-            <X className="w-8 h-7" strokeWidth={3} color="red" />
-          </h1>
+    <div className="fixed inset-0 flex justify-center items-center bg-black/30 backdrop-blur-sm z-50">
+      <div className="w-full max-w-md mx-4">
+        <fieldset className="bg-white dark:bg-[#353535] rounded-xl shadow-xl p-6 border border-gray-200">
+          <div className="flex justify-between items-center mb-4">
+            <h1 className="text-xl font-semibold text-gray-800 dark:text-gray-50">
+              Update Permission
+            </h1>
+            <button
+              type="button"
+              onClick={onClose}
+              className="text-red-400 text-2xl hover:text-red-500 "
+            >
+              <X className="w-8 h-7" strokeWidth={3} />
+            </button>
+          </div>
           <form onSubmit={form.handleSubmit(onSubmit)}>
-            <div className="mb-4">
-              <InputElement
-                label="Name"
-                layout="row"
-                form={form}
-                name="name"
-                placeholder="Enter Permission Name"
-              />
+            <div className="flex items-center gap-4 mb-6">
+              <div className="grid grid-rows-2 gap-4 flex-1">
+                <InputElement
+                  label="Name"
+                  form={form}
+                  layout="row"
+                  name="name"
+                  placeholder="Enter permission name"
+                />
+                <div className="mb-4">
+                  <AppCombobox
+                    value={roleId}
+                    dropDownWidth="w-full"
+                    name="roleId"
+                    dropdownPositionClass="absolute"
+                    label="Roles"
+                    options={roles?.Items}
+                    selected={roles?.Items.find((g) => g.Id === roleId) || null}
+                    onSelect={(group) => {
+                      if (group) {
+                        setRoleId(group.Id || "");
+                        handleSelectRole(group.Id || "");
+                      } else {
+                        setRoleId("");
+                      }
+                    }}
+                    getLabel={(g) => g?.Name || ""}
+                    getValue={(g) => g?.Id ?? ""}
+                  />
+                </div>
+              </div>
             </div>
-            <div className="mb-4">
-              <AppCombobox
-                value={roleId}
-                dropDownWidth="w-full"
-                name="roleId"
-                dropdownPositionClass="absolute"
-                label="Roles"
-                options={roles?.Items}
-                selected={roles?.Items.find((g) => g.Id === roleId) || null}
-                onSelect={(group) => {
-                  if (group) {
-                    setRoleId(group.Id || "");
-                    handleSelectRole(group.Id || "");
-                  } else {
-                    setRoleId("");
-                  }
-                }}
-                getLabel={(g) => g?.Name || ""}
-                getValue={(g) => g?.Id ?? ""}
-              />
-            </div>
-            <div className="flex justify-center ">
+            <div className="flex mt-4 justify-center space-x-2">
+              <ButtonElement type="submit" text="Submit" />
               <ButtonElement
-                type="submit"
-                customStyle="hover:bg-teal-700 transition-all !text-xs font-bold !bg-teal-500"
-                text={"Submit"}
+                type="button"
+                customStyle="hover:bg-gray-700 transition-all !text-xm font-bold !bg-gray-400 "
+                text="Discard"
+                handleClick={handleClose}
               />
             </div>
           </form>
-        </div>
+        </fieldset>
       </div>
     </div>
   );

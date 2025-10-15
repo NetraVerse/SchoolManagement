@@ -7,6 +7,7 @@ import { ButtonElement } from "@/components/Buttons/ButtonElement";
 import { Toast } from "@/components/Toast/toast";
 import { AxiosError } from "axios";
 import { useEffect } from "react";
+import { X } from "lucide-react";
 
 type Props = {
   form: UseFormReturn<IModules>;
@@ -49,87 +50,80 @@ const EditModuleForm = ({ form, onClose, moduleId }: Props) => {
     }
   }, [moduleData, form]);
   return (
-    <div
-      id="container"
-      className=" fixed inset-0 flex justify-center items-center border-rounded-lg bg-opacity-30 backdrop-blur-sm"
-    >
-      <div className=" max-h-screen w-[25rem]">
-        <div className="rounded-lg">
-          <form onSubmit={form.handleSubmit(onSubmit)}>
-            <fieldset className="bg-white p-6 border-solid border-gray-200 border shadow-lg">
-              <div className="flex justify-between items-center mb-4">
-                <h1 className="text-lg  font-semibold">Update Module</h1>
-                <button
-                  type="button"
-                  onClick={onClose}
-                  className="text-red-400 text-2xl hover:text-red-500 "
-                >
-                  <img alt="close" className="w-8 h-7" />
-                </button>
-              </div>
-              <div className="mb-4">
-                <InputElement
-                  label="Name"
-                  layout="column"
-                  form={form}
-                  name="Name"
-                  placeholder="Enter module name"
-                  defaultValue={moduleData?.Name}
-                />
-              </div>
+    <div className="fixed inset-0 flex justify-center items-center backdrop-blur-xs z-50">
+      <div className="w-full max-w-md mx-4">
+        <fieldset className="bg-white rounded-xl shadow-xl p-6 border border-gray-200">
+          <div className="flex justify-between items-center mb-6">
+            <h1 className="text-xl font-semibold text-gray-800">
+              Update Module
+            </h1>
+            <button
+              type="button"
+              onClick={onClose}
+              className="text-red-400 text-2xl hover:text-red-500 "
+            >
+              <X size={24} strokeWidth={3} color="red" />
+            </button>
+          </div>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <div className="mb-4">
+              <InputElement
+                label="Name"
+                layout="column"
+                form={form}
+                name="Name"
+                placeholder="Enter module name"
+                defaultValue={moduleData?.Name}
+              />
+            </div>
 
-              <div className="mb-4">
-                <InputElement
-                  label="Target Url"
-                  layout="column"
-                  form={form}
-                  name="TargetUrl"
-                  placeholder="Enter target URl"
-                  defaultValue={moduleData?.TargetUrl}
-                />
-              </div>
-              <div className="mb-4">
-                <InputElement
-                  label="Icon Url"
-                  layout="column"
-                  form={form}
-                  name="IconUrl"
-                  placeholder="Enter Icon URl"
-                  defaultValue={moduleData?.IconUrl}
-                />
-              </div>
-              <div className="mb-4">
-                <InputElement
-                  label="Rank"
-                  layout="column"
-                  form={form}
-                  name="Rank"
-                  placeholder="Enter Rank"
-                  defaultValue={moduleData?.Rank}
-                />
-              </div>
-              <div className="mb-2 flex ml-4 items-center">
-                <InputElement
-                  label=""
-                  layout="column"
-                  form={form}
-                  inputTypeCheckBox="checkbox"
-                  name="isActive"
-                  customStyle="!border-0 after:!content-none"
-                  defaultValue={moduleData?.isActive}
-                />
-                <p className="ml-4 ">Is Active</p>
-              </div>
-              <div className="flex mt-4 justify-center space-x-2">
-                <ButtonElement
-                  type="submit"
-                  className="hover:bg-teal-700 transition-all !text-xm font-bold !bg-teal-500"
-                  text="Submit"
-                />
-              </div>
-            </fieldset>
+            <div className="mb-4">
+              <InputElement
+                label="Target Url"
+                layout="column"
+                form={form}
+                name="TargetUrl"
+                placeholder="Enter target URl"
+                defaultValue={moduleData?.TargetUrl}
+              />
+            </div>
+            <div className="mb-4">
+              <InputElement
+                label="Icon Url"
+                layout="column"
+                form={form}
+                name="IconUrl"
+                placeholder="Enter Icon URl"
+                defaultValue={moduleData?.IconUrl}
+              />
+            </div>
+            <div className="mb-4">
+              <InputElement
+                label="Rank"
+                layout="column"
+                form={form}
+                name="Rank"
+                placeholder="Enter Rank"
+                defaultValue={moduleData?.Rank}
+              />
+            </div>
+            <div className="mb-2 flex ml-4 items-center">
+              <InputElement
+                label=""
+                layout="column"
+                form={form}
+                inputTypeCheckBox="checkbox"
+                name="isActive"
+                customStyle="!border-0 after:!content-none"
+                defaultValue={moduleData?.isActive}
+              />
+              <p className="ml-4 ">Is Active</p>
+            </div>
+            <div className="flex justify-center mt-4">
+              <ButtonElement type="submit" text="Submit" />
+            </div>
           </form>
-        </div>
+        </fieldset>
       </div>
     </div>
   );
