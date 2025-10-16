@@ -3,7 +3,18 @@
 
 import React, { useState, useEffect } from "react";
 import adi from "@/assets/adi.jpg";
-import { ChevronDown, ChevronRight, LogOut, LucideProps } from "lucide-react";
+import {
+  BadgeCent,
+  Calculator,
+  ChevronDown,
+  ChevronRight,
+  Factory,
+  LogOut,
+  LucideProps,
+  SheetIcon,
+  User,
+  UserCog,
+} from "lucide-react";
 import { ISidebar } from "@/types/ISidebar";
 import { usePermissions } from "@/context/auth/PermissionContext";
 import {
@@ -23,12 +34,14 @@ type Props = {
 
 const Sidebar: React.FC<Props> = ({ isOpen, sideBarItems }: Props) => {
   const { setMenuStatus } = usePermissions();
+  let role = "";
   const [activeSection, setActiveSection] = useState<string | null>(null);
   const [activeSubModule, setActiveSubModule] = useState<string | null>(null);
   const pathname = usePathname();
+  const parts = pathname.split("/").filter(Boolean);
+  const pathAfterFirst = `/${parts.slice(1).join("/")}`;
   const navigate = useRouter();
   const storedUser = localStorage.getItem("userDetails");
-  let role = "";
   if (storedUser) {
     try {
       const parsedUser = JSON.parse(storedUser);
@@ -37,8 +50,19 @@ const Sidebar: React.FC<Props> = ({ isOpen, sideBarItems }: Props) => {
       console.error("Failed to parse user details:", error);
     }
   }
+
+  const withRolePrefix = (path: string) => {
+    const cleanPath = path.startsWith("/") ? path : `/${path}`;
+    let prefix;
+    if (role === "superadmin") {
+      prefix = "SuperAdmin";
+    } else if (role === "admin") prefix = "admin";
+    else prefix = "endUser";
+    return `/${prefix?.toLowerCase()}${cleanPath}`;
+  };
+
   useEffect(() => {
-    if (role === "Admin" || role === "developeruser") {
+    if (role === "superadmin" || role === "developeruser") {
       setMenuStatus([
         {
           menuName: "add",
@@ -86,10 +110,16 @@ const Sidebar: React.FC<Props> = ({ isOpen, sideBarItems }: Props) => {
     >;
   } = {
     Dashboard: Home,
-    Setup: Settings,
     Navigation: Navigation,
     "Access Control": LockKeyholeOpen,
     "Institution SetUp": School,
+    User: User,
+    Role: UserCog,
+    Inventory: Factory,
+    Sales: BadgeCent,
+    Report: SheetIcon,
+    Account: Calculator,
+    Setup: Settings,
   };
 
   const sortByRank = (a: any, b: any) => (a.rank ?? 999) - (b.rank ?? 999);
@@ -115,7 +145,6 @@ const Sidebar: React.FC<Props> = ({ isOpen, sideBarItems }: Props) => {
       : [],
     allowedRoles: item.role,
   }));
-
   const toggleSection = (section: string) => {
     setActiveSection((prev) => (prev === section ? null : section));
     if (activeSection !== section) setActiveSubModule(null);
@@ -132,7 +161,13 @@ const Sidebar: React.FC<Props> = ({ isOpen, sideBarItems }: Props) => {
     >
       <div className="p-4 pb-[1.7rem] pt-6 flex justify-center md:justify-start border-b border-gray-200">
         <Link
-          href="/Admin/dashboard"
+          href={
+            role === "superadmin"
+              ? "/SuperAdmin/dashboard"
+              : role === "developeruse"
+              ? "/Developer/dashboard"
+              : withRolePrefix("dashboard")
+          }
           className="flex items-center cursor-pointer"
         >
           <span className="ml-3 text-lg font-semibold hidden md:inline">
@@ -149,7 +184,7 @@ const Sidebar: React.FC<Props> = ({ isOpen, sideBarItems }: Props) => {
           />
         </div>
         <span className="text-md  font-semibold  group-hover:text-blue-600 transition-colors hidden md:inline">
-          Super Admin
+          {role}
         </span>
         <button
           onClick={handleLogout}
@@ -161,22 +196,28 @@ const Sidebar: React.FC<Props> = ({ isOpen, sideBarItems }: Props) => {
       </div>
       <div className="flex-1 mt-4 px-2 overflow-y-auto space-y-1">
         {navLinks
-          .filter((item) =>
-            (item.allowedRoles ?? []).includes(role?.toLowerCase() || "")
-          )
+          .filter((item) => {
+            const lowerRole = role?.toLowerCase() || "";
+            if (lowerRole === "superadmin" || lowerRole === "developeruser")
+              return (item.allowedRoles ?? []).includes(lowerRole);
+            return true;
+          })
           .map((item) => {
             const hasSubItems = item.subItems.length > 0;
             const isOpen = activeSection === item.key;
             const hasActiveChild = item.subItems.some(
-              (child) => pathname === child.targetUrl
+              (child) => pathAfterFirst === child.targetUrl
             );
-            const active = pathname === item.url;
-
+            const active = pathAfterFirst === item.url;
             if (!hasSubItems) {
               return (
                 <Link
                   key={item.key}
-                  href={item.url}
+                  href={
+                    role === "superadmin" || role === "developeruser"
+                      ? item.url
+                      : withRolePrefix(item.url)
+                  }
                   className={`group relative flex items-center gap-3 px-3 py-3 rounded-lg text-sm font-medium transition-all duration-200 ${
                     active
                       ? "bg-[#CCE3FC] text-[#035BBA] font-semibold rounded-l-none"
@@ -222,12 +263,16 @@ const Sidebar: React.FC<Props> = ({ isOpen, sideBarItems }: Props) => {
                     isOpen ? "max-h-40 opacity-100" : "max-h-0 opacity-0"
                   }`}
                 >
-                  {item.subItems.map((subItem) => {
-                    const activeSub = pathname === subItem.targetUrl;
+                  {item.subItems.map((subItem, index) => {
+                    const activeSub = pathAfterFirst === subItem.targetUrl;
                     return (
                       <Link
-                        key={subItem.targetUrl}
-                        href={subItem.targetUrl}
+                        key={subItem.targetUrl + index}
+                        href={
+                          role === "superadmin" || role === "developeruser"
+                            ? subItem.targetUrl
+                            : withRolePrefix(subItem.targetUrl)
+                        }
                         onClick={() =>
                           handleSelectSubModule(subItem.subModulesId!)
                         }

@@ -77,7 +77,7 @@ function InnerCombobox<T>(
           setQuery(option ? getLabel(option) : "");
           if (form?.setValue) {
             form.setValue(name, option ? getValue(option) : null, {
-              shouldValidate: true, // ensures required validation runs again
+              shouldValidate: true,
               shouldDirty: true,
             });
             if (option) {
@@ -92,7 +92,7 @@ function InnerCombobox<T>(
               <ComboboxInput
                 {...(isFiler ? { value: query } : {})}
                 {...(form?.register ? form.register(name, { required }) : {})}
-                className={`w-full p-2 py-3 border  rounded-md outline-none peer placeholder:opacity-0 bg-[#FBFBFB] focus:border-teal-500 border-gray-400 dark:bg-[#27272a] dark:text-white  ${
+                className={`w-full p-2 py-3 border  rounded-md outline-none peer placeholder:opacity-0 bg-[#ffffff] focus:border-[#4788CD] border-gray-400 dark:bg-[#353535] dark:text-white  ${
                   form?.formState?.errors?.[name]
                     ? "border-red-500"
                     : "border-gray-400"
@@ -120,9 +120,9 @@ function InnerCombobox<T>(
               />
               <label
                 htmlFor={name}
-                className={`absolute flex items-center left-1 scale-90 peer-placeholder-shown:scale-100 peer-focus:scale-90 -top-[0.8rem] px-2 origin-left peer-placeholder-shown:top-2 peer-focus:-top-[0.8rem] peer-focus:text-teal-500 dark:peer-focus:text-gray-200  dark:peer-focus:bg-[#27272a] peer-focus:bg-[#FBFBFB] text-gray-500  transition-all pointer-events-none ${
+                className={`absolute flex items-center left-1 scale-90 peer-placeholder-shown:scale-100 peer-focus:scale-90 -top-[0.8rem] px-2 origin-left peer-placeholder-shown:top-2 peer-focus:-top-[0.8rem] peer-focus:text-[#4788CD] dark:peer-focus:text-gray-200  dark:peer-focus:bg-[#353535] peer-focus:bg-[#ffffff] text-gray-500  transition-all pointer-events-none ${
                   value || (form ? form.watch(name) : value)
-                    ? "bg-[#FBFBFB] dark:bg-[#27272a]"
+                    ? "bg-[#ffffff] dark:bg-[#353535] dark:text-white"
                     : ""
                 }`}
               >
@@ -136,7 +136,7 @@ function InnerCombobox<T>(
               <div className="z-[50]">
                 {filteredOptions && filteredOptions.length > 0 && (
                   <ComboboxOptions
-                    className={`bg-[#FBFBFB] border rounded shadow z-50 max-h-40 overflow-y-auto dark:text-white dark:bg-[#2A2B2E] ${
+                    className={`bg-[#ffffff] border rounded shadow z-50 max-h-40 overflow-y-auto dark:text-white dark:bg-[#353535] ${
                       dropdownPositionClass || "top-full left-0 right-0 mt-1"
                     } ${dropDownWidth}`}
                   >

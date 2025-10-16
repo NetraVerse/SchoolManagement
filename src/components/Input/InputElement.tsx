@@ -103,9 +103,9 @@ export const InputElement = forwardRef<HTMLInputElement, IInput>(
                       : "border-gray-400"
                   } ${
                     readOnly
-                      ? "cursor-not-allowed bg-gray-100 dark:bg-[#3d3d3d]"
+                      ? "cursor-not-allowed bg-gray-100 dark:bg-[#353535]"
                       : ""
-                  } rounded-md outline-none peer placeholder:opacity-0 bg-[#FBFBFB] dark:text-white border-[#14b8a6] dark:bg-[#27272a] focus:border-teal-500 ${customStyle}`}
+                  } rounded-md outline-none peer placeholder:opacity-0 bg-[#ffffff] dark:text-white border-[#035BBA] dark:bg-[#353535] focus:border-[#4788CD] ${customStyle}`}
                   defaultValue={defaultValue}
                   inputMode={inputType === "number" ? "decimal" : undefined}
                   value={value}
@@ -131,9 +131,9 @@ export const InputElement = forwardRef<HTMLInputElement, IInput>(
                   htmlFor={name}
                   className={`absolute left-1 ${
                     value || form.watch(name)
-                      ? "bg-[#FBFBFB] dark:bg-[#27272a]"
+                      ? "bg-[#ffffff] dark:bg-[#353535] dark:text-white"
                       : ""
-                  } scale-90 peer-placeholder-shown:scale-100 peer-focus:scale-90 -top-[0.8rem] px-2 origin-left peer-placeholder-shown:top-2 peer-focus:-top-[0.8rem] peer-focus:text-teal-500 dark:peer-focus:text-gray-200 peer-focus:bg-[#FBFBFB] dark:peer-focus:bg-[#27272a] text-gray-500 transition-all pointer-events-none`}
+                  } scale-90 peer-placeholder-shown:scale-100 peer-focus:scale-90 -top-[0.8rem] px-2 origin-left peer-placeholder-shown:top-2 peer-focus:-top-[0.8rem] peer-focus:text-[#4788CD] dark:peer-focus:text-gray-200 peer-focus:bg-[#ffffff] dark:peer-focus:bg-[#353535] text-gray-500 transition-all pointer-events-none`}
                 >
                   <div className="flex items-center">
                     {required && (
