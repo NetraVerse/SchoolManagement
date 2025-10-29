@@ -1,7 +1,7 @@
 import LayoutWrapper from "@/components/Sidebar/ClientWrapper";
 import Dashboard from "./components/Dashboard";
 
-export default function DashboardPageSuperAdmin() {
+export default function DashboardPageEndUser() {
   return (
     <LayoutWrapper title="Dashboard">
       <Dashboard />

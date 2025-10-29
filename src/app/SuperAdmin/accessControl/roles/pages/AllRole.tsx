@@ -4,7 +4,6 @@ import AllRoleForm from "../components/AllRoles";
 const AllRole = () => {
   return (
     <>
-      <TitleHeader title="Role" />
       <AllRoleForm />
     </>
   );

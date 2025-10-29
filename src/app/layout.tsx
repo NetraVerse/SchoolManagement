@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import ReactQueryProvider from "@/context/Providers/ReactQueryProvider";
 import { PermissionProvider } from "@/context/auth/PermissionContext";
 import { ThemeProvider } from "@/context/Theme/ThemeContext";
+import { SidebarProvider } from "@/context/SidebarContext";
 
 export const metadata: Metadata = {
   title: "Next.js Sidebar Example",
@@ -20,7 +21,9 @@ export default function RootLayout({
         <ReactQueryProvider>
           <PermissionProvider>
             <ThemeProvider>
-              <main>{children}</main>
+              <main>
+                <SidebarProvider>{children}</SidebarProvider>
+              </main>
             </ThemeProvider>
           </PermissionProvider>
         </ReactQueryProvider>

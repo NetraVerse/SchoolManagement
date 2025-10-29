@@ -1,7 +1,8 @@
+"use client";
 import LayoutWrapper from "@/components/Sidebar/ClientWrapper";
-import { AllUsers } from "./pages/All";
+import { AllUsers } from "@/app/SuperAdmin/accessControl/user/pages/All";
 
-const Users = () => {
+const AdminUser = () => {
   return (
     <div>
       <LayoutWrapper title="User">
@@ -10,4 +11,4 @@ const Users = () => {
     </div>
   );
 };
-export default Users;
+export default AdminUser;

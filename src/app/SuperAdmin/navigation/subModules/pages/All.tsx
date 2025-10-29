@@ -5,7 +5,6 @@ import AllSubModuleForm from "../components/AllSubModuleForm";
 const AllSubModule = () => {
   return (
     <div>
-      <TitleHeader title="Sub Module" />
       <AllSubModuleForm />
     </div>
   );
