@@ -94,16 +94,10 @@ const AllCompanyForm = () => {
   };
 
   return (
-    <div className="m-[20px]">
-      <div
-        style={{
-          margin: "20px",
-          overflowX: "auto",
-        }}
-        className="p-4"
-      >
+    <div className="md:px-4  px-4 ">
+      <div className="overflow-x-auto bg-white dark:bg-[#353535] border border-gray-200 rounded-xl">
         <div className="flex w-full justify-between p-3 px-4 pt-4 items-center ">
-          <h1 className=" text-xl font-semibold ">All Permission</h1>
+          <h1 className=" text-xl font-semibold ">All Company</h1>
           <ButtonElement
             icon={<Plus size={24} />}
             type="button"
@@ -112,179 +106,102 @@ const AllCompanyForm = () => {
             className="!text-md !font-bold"
           />
         </div>
-
-        <table
-          className="w-full border-collapse mb-4 "
-          style={{
-            minWidth: "600px",
-            tableLayout: "fixed",
-          }}
-        >
-          <thead>
-            <tr style={{ backgroundColor: "#f2f2f2", textAlign: "left" }}>
-              <th style={{ padding: "12px", borderBottom: "2px solid #ddd" }}>
-                SN
-              </th>
-              <th style={{ padding: "12px", borderBottom: "2px solid #ddd" }}>
-                Name
-              </th>
-              <th style={{ padding: "12px", borderBottom: "2px solid #ddd" }}>
-                Address
-              </th>
-              <th style={{ padding: "12px", borderBottom: "2px solid #ddd" }}>
-                Email
-              </th>
-              <th style={{ padding: "12px", borderBottom: "2px solid #ddd" }}>
-                Short Name
-              </th>
-              <th style={{ padding: "12px", borderBottom: "2px solid #ddd" }}>
-                Contact Number
-              </th>
-              <th style={{ padding: "12px", borderBottom: "2px solid #ddd" }}>
-                Contact Person
-              </th>
-              <th style={{ padding: "12px", borderBottom: "2px solid #ddd" }}>
-                Assigned Users
-              </th>
-              <th style={{ padding: "12px", borderBottom: "2px solid #ddd" }}>
-                Pan
-              </th>
-
-              <th style={{ padding: "12px", borderBottom: "2px solid #ddd" }}>
-                Actions
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {allCompany && allCompany?.Items?.length > 0 ? (
-              allCompany?.Items.map((Company: ICompany, index: number) => (
-                <tr key={index}>
-                  <td
-                    style={{ padding: "12px", borderBottom: "1px solid #ddd" }}
-                  >
-                    {index + 1}
-                  </td>
-                  <td
-                    style={{
-                      padding: "12px",
-                      borderBottom: "1px solid #ddd",
-                    }}
-                    className="break-words"
-                  >
-                    {Company.name}
-                  </td>
-                  <td
-                    style={{ padding: "12px", borderBottom: "1px solid #ddd" }}
-                    className="break-words"
-                  >
-                    {Company.address}
-                  </td>
-                  <td
-                    style={{
-                      padding: "12px",
-                      borderBottom: "1px solid #ddd",
-                    }}
-                    className="break-words"
-                  >
-                    {Company.email}
-                  </td>
-                  <td
-                    style={{ padding: "12px", borderBottom: "1px solid #ddd" }}
-                  >
-                    {Company.shortName}
-                  </td>
-                  <td
-                    style={{ padding: "12px", borderBottom: "1px solid #ddd" }}
-                    className="break-words"
-                  >
-                    {Company.contactNumber}
-                  </td>
-                  <td
-                    style={{ padding: "12px", borderBottom: "1px solid #ddd" }}
-                    className="break-words"
-                  >
-                    {Company.contactPerson}
-                  </td>
-                  <td
-                    style={{ padding: "12px", borderBottom: "1px solid #ddd" }}
-                    className="break-words"
-                  >
-                    {Company.Users.map((item, index) => (
-                      <div key={index} className="flex">
-                        <UserName userId={item.userId} /> , &nbsp;
-                      </div>
-                    ))}
-                  </td>
-                  <td
-                    style={{ padding: "12px", borderBottom: "1px solid #ddd" }}
-                    className="break-words"
-                  >
-                    {Company.pan}
-                  </td>
-
-                  <td
-                    style={{ padding: "12px", borderBottom: "1px solid #ddd" }}
-                  >
-                    <div className="flex space-x-2">
-                      <DeleteButton
-                        onConfirm={() => handleDelete(Company.id)}
-                        headerText={<Trash color="red" />}
-                        content="Are you sure you want to delete this company?"
-                      />
-                      <EditButton button={buttonElement(Company.id ?? "")} />
-
-                      {selectedId && selectedId !== "" && (
-                        <EditCompany
-                          visible={modal}
-                          onClose={() => setShowModal(false)}
-                          CompanyId={selectedId}
-                          currentPageIndex={paginationParams.pageIndex}
-                        />
-                      )}
-                    </div>
-                  </td>
-                </tr>
-              ))
-            ) : (
-              <tr>
-                <td
-                  colSpan={4}
-                  style={{
-                    padding: "12px",
-                    textAlign: "center",
-                    justifyContent: "center",
-                  }}
-                ></td>
+        <div className="overflow-x-auto">
+          <table className="w-full border-collapse text-xs sm:text-sm">
+            <thead>
+              <tr style={{ backgroundColor: "#f2f2f2", textAlign: "left" }}>
+                <th className="px-4 py-3 text-left">SN</th>
+                <th className="px-4 py-3 text-left">Name</th>
+                <th className="px-4 py-3 text-left">Address</th>
+                <th className="px-4 py-3 text-left">Email</th>
+                <th className="px-4 py-3 text-left">Short Name</th>
+                <th className="px-4 py-3 text-left">Contact Number</th>
+                <th className="px-4 py-3 text-left">Contact Person</th>
+                <th className="px-4 py-3 text-left">Assigned Users</th>
+                <th className="px-4 py-3 text-left">Pan</th>
+                <th className="px-4 py-3 text-left ">Actions</th>
               </tr>
-            )}
-            <Add visible={addModal} onClose={() => setAddModal(!addModal)} />
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {allCompany && allCompany?.Items?.length > 0 ? (
+                allCompany?.Items.map((Company: ICompany, index: number) => (
+                  <tr
+                    key={index}
+                    className="hover:bg-gray-50 dark:hover:bg-gray-600  transition-colors border-b border-gray-100 dark:text-gray-100 text-gray-700"
+                  >
+                    <td className="py-3 px-4">{index + 1}</td>
+                    <td className="py-3 px-4">{Company.name}</td>
+                    <td className="py-3 px-4">{Company.address}</td>
+                    <td className="py-3 px-4">{Company.email}</td>
+                    <td className="py-3 px-4">{Company.shortName}</td>
+                    <td className="py-3 px-4">{Company.contactNumber}</td>
+                    <td className="py-3 px-4">{Company.contactPerson}</td>
+                    <td className="py-3 px-4">
+                      {Company.Users.map((item, index) => (
+                        <div key={index} className="flex">
+                          <UserName userId={item.userId} /> , &nbsp;
+                        </div>
+                      ))}
+                    </td>
+                    <td className="py-3 px-4">{Company.pan}</td>
 
-        {allCompany && allCompany?.Items?.length > 0 && (
-          <Pagination
-            form={handleSubmit}
-            pagination={{
-              currentPage: Array.isArray(allCompany)
-                ? 1
-                : allCompany?.PageIndex ?? 1,
-              firstPage: Array.isArray(allCompany)
-                ? 1
-                : allCompany?.FirstPage ?? 1,
-              lastPage: Array.isArray(allCompany)
-                ? 1
-                : allCompany?.LastPage ?? 1,
-              nextPage: Array.isArray(allCompany)
-                ? 1
-                : allCompany?.NextPage ?? 1,
-              previousPage: Array.isArray(allCompany)
-                ? 1
-                : allCompany?.PreviousPage ?? 1,
-            }}
-            handleSearch={handleSearch}
-          />
-        )}
+                    <td className="py-3 px-4">
+                      <div className="flex space-x-2">
+                        <DeleteButton
+                          onConfirm={() => handleDelete(Company.id)}
+                          headerText={<Trash />}
+                          content="Are you sure you want to delete this company?"
+                        />
+                        <EditButton button={buttonElement(Company.id ?? "")} />
+
+                        {selectedId && selectedId !== "" && (
+                          <EditCompany
+                            visible={modal}
+                            onClose={() => setShowModal(false)}
+                            CompanyId={selectedId}
+                            currentPageIndex={paginationParams.pageIndex}
+                          />
+                        )}
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td
+                    colSpan={4}
+                    style={{
+                      padding: "12px",
+                      textAlign: "center",
+                      justifyContent: "center",
+                    }}
+                  ></td>
+                </tr>
+              )}
+              <Add visible={addModal} onClose={() => setAddModal(!addModal)} />
+            </tbody>
+          </table>
+        </div>
       </div>
+      {allCompany && allCompany?.Items?.length > 0 && (
+        <Pagination
+          form={handleSubmit}
+          pagination={{
+            currentPage: Array.isArray(allCompany)
+              ? 1
+              : allCompany?.PageIndex ?? 1,
+            firstPage: Array.isArray(allCompany)
+              ? 1
+              : allCompany?.FirstPage ?? 1,
+            lastPage: Array.isArray(allCompany) ? 1 : allCompany?.LastPage ?? 1,
+            nextPage: Array.isArray(allCompany) ? 1 : allCompany?.NextPage ?? 1,
+            previousPage: Array.isArray(allCompany)
+              ? 1
+              : allCompany?.PreviousPage ?? 1,
+          }}
+          handleSearch={handleSearch}
+        />
+      )}
     </div>
   );
 };

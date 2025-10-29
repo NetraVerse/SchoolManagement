@@ -49,9 +49,9 @@ const AssignRoleForAddUser = ({
       <div>
         {role === "superadmin"
           ? superAdminRoles?.Items && superAdminRoles.Items.length > 0
-            ? superAdminRoles.Items.map((role) => {
+            ? superAdminRoles.Items.map((role, index) => {
                 return (
-                  <div key={role.Id} className="">
+                  <div key={role.Id + index} className="">
                     <div className="flex items-center h-fit drop-shadow-md p-2 space w-fit py-1 rounded-sm">
                       <input
                         type="checkbox"

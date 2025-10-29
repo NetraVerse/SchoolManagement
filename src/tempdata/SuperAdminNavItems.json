@@ -3,7 +3,7 @@
     {
       "name": "Dashboard",
       "iconUrl": "Home",
-      "targetUrl": "/Admin/dashboard",
+      "targetUrl": "/SuperAdmin/dashboard",
       "routeName": "users",
       "role": ["superadmin"],
        "subModulesResponse": []

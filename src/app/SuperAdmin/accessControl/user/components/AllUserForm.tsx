@@ -25,6 +25,7 @@ import toast, { Toaster } from "react-hot-toast";
 import { AppCombobox } from "@/components/Input/ComboBox";
 import { useRouter } from "next/navigation";
 import Add from "../pages/Add";
+import { useGetAllCompany } from "@/app/admin/Setup/Company/hooks";
 
 const AllUserForm = () => {
   const navigate = useRouter();
@@ -38,7 +39,7 @@ const AllUserForm = () => {
   const [selectedUserName, setSelectedUserName] = useState("");
   const [selectedEmail, setSelectedEmail] = useState("");
   const [selectedCompany, setSelectedCompany] = useState("");
-  const { data: allcompany } = useGetAllUsers();
+  const { data: allcompany } = useGetAllCompany();
 
   const [formData, setFormData] = useState<IFilterUserByDate>({
     companyId: "",
@@ -193,8 +194,8 @@ const AllUserForm = () => {
                 }
                 onSelect={(user) => setSelectedCompany(user?.CompanyId ?? "")}
                 getLabel={(g) =>
-                  allcompany?.Items.find((i) => i.Id === g?.CompanyId)
-                    ?.UserName ?? ""
+                  allcompany?.Items.find((i) => i.id === g?.CompanyId)?.name ??
+                  ""
                 }
                 getValue={(g) => g?.CompanyId ?? ""}
               />
@@ -246,11 +247,8 @@ const AllUserForm = () => {
                   >
                     <td className="py-3 px-4">{index + 1}</td>
                     <td className="py-3 px-4">
-                      {allcompany?.Items.find(
-                        (i) =>
-                          i.Id ===
-                          allUsers.find((u) => u.Id === user.Id)?.CompanyId
-                      )?.UserName ?? ""}
+                      {allcompany?.Items.find((i) => i.id === user.CompanyId)
+                        ?.name ?? ""}
                     </td>
                     <td className="py-3 px-4">{user.UserName}</td>
                     <td className="py-3 px-4">{user.Email}</td>

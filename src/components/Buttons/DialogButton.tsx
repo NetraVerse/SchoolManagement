@@ -15,19 +15,15 @@ import {
 
 import { Button } from "@/components/ui/button";
 type Props = {
-  headerText: JSX.Element;
+  icon: JSX.Element;
   content: string;
   onConfirm: () => void;
 };
-export default function DialogButton({
-  headerText,
-  content,
-  onConfirm,
-}: Props) {
+export default function DialogButton({ icon, content, onConfirm }: Props) {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button variant="destructive">{headerText}</Button>
+        <Button variant="ghost">{icon}</Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>

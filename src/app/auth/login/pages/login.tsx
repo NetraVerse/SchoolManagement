@@ -87,7 +87,7 @@ const LoginForm = () => {
         ? "/admin/dashboard"
         : role === "demoexpiryrole"
         ? "/end-user/expired"
-        : "/end-user";
+        : "/enduser/dashboard";
       if (dashboardRoute) setTimeout(() => router.push(dashboardRoute), 200);
     } catch (error: any) {
       Toast.error(error.response?.data || error.message || "Failed to login.");

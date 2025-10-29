@@ -10,6 +10,7 @@ import { useState, useRef, useEffect } from "react";
 import AssignRoleForAddUser from "./AssignRoleForAddUser";
 import { X } from "lucide-react";
 import InstitutionFormForAddUser from "./InstitutionFormForAddUser";
+import CompanyFormForAddUser from "./CompanyFormForAddUser";
 
 type Props = {
   form: UseFormReturn<IUserResponse>;
@@ -24,6 +25,7 @@ const AddUserForm = ({ form, onClose }: Props) => {
   const [selectedInstitution, setSelectedInstitution] = useState<string | null>(
     null
   );
+  const [companyName, setCompanyName] = useState<string | null>("");
   const [roleName, setRoleName] = useState<string | undefined>("");
   const [selectedCompany, setSelectedCompany] = useState<string | null>("");
   const [institutionName, setInstitutionName] = useState<string | null>("");
@@ -199,7 +201,6 @@ const AddUserForm = ({ form, onClose }: Props) => {
                     selectedInstitution={selectedInstitution}
                     setSelectedInstitution={setSelectedInstitution}
                   />
-                  {/* Institution form component */}
                 </>
               )}
               {role !== "superadmin" && activeTab === "Company" && (
@@ -208,9 +209,14 @@ const AddUserForm = ({ form, onClose }: Props) => {
                     label="Company"
                     form={form}
                     name="companyIds"
-                    value=""
+                    value={companyName || ""}
                   />
-                  {/* Company form component */}
+                  <CompanyFormForAddUser
+                    userId=""
+                    selectedCompany={selectedCompany}
+                    setSelectedCompany={setSelectedCompany}
+                    setCompanyName={setCompanyName}
+                  />
                 </>
               )}
             </div>
